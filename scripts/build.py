@@ -264,6 +264,150 @@ def render_cite_block(meta: dict, entry: dict, pdf_href: str) -> str:
             f"  {pdf_link}\n</details>\n")
 
 
+
+# --------------------------------------------------------------------------- #
+# URLs, link previews, structured data
+# --------------------------------------------------------------------------- #
+def base_url(cfg: dict) -> str:
+    b = (cfg.get("base_url") or "").strip()
+    return (b if b.endswith("/") else b + "/") if b else ""
+
+
+def abs_url(cfg: dict, rel: str) -> str:
+    b = base_url(cfg)
+    return (b + rel.lstrip("/")) if b else rel
+
+
+def meta_tag(name: str, content: str, prop: bool = False) -> str:
+    if not content:
+        return ""
+    key = "property" if prop else "name"
+    return f'<meta {key}="{name}" content="{html.escape(str(content), quote=True)}">\n'
+
+
+def render_social(cfg: dict, *, title: str, description: str, url: str,
+                  image: str, kind: str = "website", published: str = "",
+                  authors: list[dict] | None = None,
+                  tags: list[str] | None = None) -> str:
+    """Open Graph + Twitter card tags, so shared links preview properly."""
+    site_name = cfg.get("title", "")
+    out = ""
+    out += meta_tag("og:type", "article" if kind == "article" else "website", prop=True)
+    out += meta_tag("og:title", title, prop=True)
+    out += meta_tag("og:description", description, prop=True)
+    out += meta_tag("og:url", url, prop=True)
+    out += meta_tag("og:site_name", site_name, prop=True)
+    out += meta_tag("og:locale", "en_US", prop=True)
+    if image:
+        out += meta_tag("og:image", image, prop=True)
+        out += meta_tag("og:image:width", "1200", prop=True)
+        out += meta_tag("og:image:height", "630", prop=True)
+        out += meta_tag("og:image:alt", title, prop=True)
+    if kind == "article":
+        out += meta_tag("article:published_time", published, prop=True)
+        for a in (authors or []):
+            out += meta_tag("article:author", a.get("name", ""), prop=True)
+        for t in (tags or []):
+            out += meta_tag("article:tag", t, prop=True)
+    out += meta_tag("twitter:card", "summary_large_image")
+    out += meta_tag("twitter:title", title)
+    out += meta_tag("twitter:description", description)
+    if image:
+        out += meta_tag("twitter:image", image)
+        out += meta_tag("twitter:image:alt", title)
+    handle = (cfg.get("links", {}) or {}).get("twitter_handle", "")
+    if handle:
+        out += meta_tag("twitter:creator", handle)
+        out += meta_tag("twitter:site", handle)
+    return out
+
+
+def person_node(cfg: dict) -> dict:
+    links = cfg.get("links", {}) or {}
+    same = [v for k, v in links.items() if str(v).startswith("http")]
+    node = {"@type": "Person",
+            "name": cite_name(cfg.get("author_display") or cfg.get("author", ""))}
+    if cfg.get("author_affiliation"):
+        node["affiliation"] = {"@type": "Organization",
+                               "name": cfg["author_affiliation"]}
+    if cfg.get("author_role"):
+        node["jobTitle"] = cfg["author_role"]
+    if links.get("orcid"):
+        node["identifier"] = links["orcid"]
+    if same:
+        node["sameAs"] = same
+    return node
+
+
+def jsonld(data: dict) -> str:
+    payload = json.dumps(data, indent=2, ensure_ascii=False)
+    payload = payload.replace("</", "<\\/")  # never break out of the script tag
+    return f'<script type="application/ld+json">\n{payload}\n</script>\n'
+
+
+def paper_jsonld(cfg: dict, entry: dict, url: str, image: str,
+                 lic: tuple | None) -> str:
+    authors = []
+    for a in entry["authors"]:
+        node = {"@type": "Person", "name": cite_name(a.get("name", ""))}
+        if a.get("orcid"):
+            node["identifier"] = a["orcid"]
+        if a.get("affiliation"):
+            node["affiliation"] = {"@type": "Organization", "name": a["affiliation"]}
+        authors.append(node)
+
+    data = {
+        "@context": "https://schema.org",
+        "@type": "ScholarlyArticle",
+        "headline": entry["title"],
+        "name": entry["title"],
+        "description": entry["description"],
+        "url": url,
+        "author": authors,
+        "publisher": person_node(cfg),
+        "inLanguage": "en",
+        "isAccessibleForFree": True,
+    }
+    if entry["subtitle"]:
+        data["alternativeHeadline"] = entry["subtitle"]
+    if entry["date"]:
+        data["datePublished"] = entry["date"]
+    if entry["tags"]:
+        data["keywords"] = ", ".join(entry["tags"])
+    if image:
+        data["image"] = image
+    if lic and lic[1]:
+        data["license"] = lic[1]
+    if entry["doi"]:
+        data["identifier"] = {"@type": "PropertyValue", "propertyID": "DOI",
+                              "value": doi_display(entry["doi"])}
+        data["sameAs"] = doi_url(entry["doi"])
+    if base_url(cfg):
+        data["isPartOf"] = {"@type": "WebSite", "name": cfg.get("title", ""),
+                            "url": base_url(cfg)}
+    return jsonld(data)
+
+
+def index_jsonld(cfg: dict, entries: list[dict]) -> str:
+    b = base_url(cfg)
+    data = {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": cfg.get("title", ""),
+        "description": cfg.get("tagline", ""),
+        "inLanguage": "en",
+        "author": person_node(cfg),
+        "publisher": person_node(cfg),
+    }
+    if b:
+        data["url"] = b
+        data["hasPart"] = [
+            {"@type": "ScholarlyArticle", "headline": e["title"],
+             "url": abs_url(cfg, f"{e['slug']}/"),
+             "datePublished": e["date"]} for e in entries]
+    return jsonld(data)
+
+
 # --------------------------------------------------------------------------- #
 # Markdown helpers
 # --------------------------------------------------------------------------- #
@@ -389,9 +533,9 @@ PAGE_TMPL = """<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 {theme_boot}
-<title>{title}</title>
+<title>{page_title}</title>
 <meta name="description" content="{description}">
-{meta_tags}<link rel="stylesheet" href="../assets/paper.css">
+{canonical}{meta_tags}<link rel="stylesheet" href="../assets/paper.css">
 </head>
 <body class="has-nav">
 {topbar}
@@ -414,7 +558,7 @@ INDEX_TMPL = """<!DOCTYPE html>
 {theme_boot}
 <title>{site_title}</title>
 <meta name="description" content="{tagline}">
-<link rel="stylesheet" href="assets/paper.css">
+{canonical}{meta_tags}<link rel="stylesheet" href="assets/paper.css">
 </head>
 <body class="library">
 <article class="wrap">
@@ -560,10 +704,25 @@ def build_paper(entry: dict, cfg: dict, all_entries: list[dict]) -> None:
         f'<li class="toc-{h["level"]}"><a href="#{h["id"]}">{html.escape(h["text"])}</a></li>'
         for h in toc)
 
-    lic_html = render_license(resolve_license(meta.get("license"), cfg),
-                              cfg.get("author", ""), entry["date"][:4])
+    lic_entry = resolve_license(meta.get("license"), cfg)
+    lic_html = render_license(lic_entry, cfg.get("author", ""), entry["date"][:4])
 
-    meta_tags = f'<meta name="citation_title" content="{title}">\n'
+    url = abs_url(cfg, f"{slug}/")
+    og_rel = "images/og.png"
+    # a relative og:image is useless to a scraper, so only emit it when absolute
+    og_abs = (abs_url(cfg, f"{slug}/{og_rel}")
+              if base_url(cfg) and (paper_dir / og_rel).exists() else "")
+    desc = entry["description"].strip() or entry["subtitle"]
+
+    meta_tags = meta_tag("robots", "index, follow, max-image-preview:large, "
+                                   "max-snippet:-1, max-video-preview:-1")
+    if entry["authors"]:
+        meta_tags += meta_tag("author", cite_name(entry["authors"][0].get("name", "")))
+    meta_tags += render_social(cfg, title=entry["title"], description=desc, url=url,
+                               image=og_abs, kind="article", published=entry["date"],
+                               authors=entry["authors"], tags=entry["tags"])
+    meta_tags += paper_jsonld(cfg, entry, url, og_abs, lic_entry)
+    meta_tags += f'<meta name="citation_title" content="{title}">\n'
     for a in entry["authors"]:
         meta_tags += (f'<meta name="citation_author" '
                       f'content="{html.escape(cite_name(a.get("name","")))}">\n')
@@ -572,11 +731,15 @@ def build_paper(entry: dict, cfg: dict, all_entries: list[dict]) -> None:
     if entry["doi"]:
         meta_tags += f'<meta name="citation_doi" content="{doi_display(entry["doi"])}">\n'
     if has_pdf:
-        meta_tags += f'<meta name="citation_pdf_url" content="{pdf_name}">\n'
+        # Scholar requires an absolute URL here
+        meta_tags += meta_tag("citation_pdf_url", abs_url(cfg, f"{slug}/{pdf_name}"))
 
+    site_name = cfg.get("title", "")
     page = PAGE_TMPL.format(
         theme_boot=THEME_BOOT,
         title=title,
+        page_title=html.escape(f"{entry['title']} - {site_name}" if site_name else entry["title"]),
+        canonical=(f'<link rel="canonical" href="{url}">\n' if url.startswith("http") else ""),
         description=html.escape(entry["description"][:180], quote=True),
         meta_tags=meta_tags,
         topbar=render_topbar(all_entries, slug, "../"),
@@ -592,6 +755,8 @@ def build_paper(entry: dict, cfg: dict, all_entries: list[dict]) -> None:
 
     if (paper_dir / "images").is_dir():
         shutil.copytree(paper_dir / "images", out_dir / "images", dirs_exist_ok=True)
+    # publish the Markdown source: the cleanest form for machine readers
+    shutil.copy(paper_dir / "index.md", out_dir / "index.md")
     if has_pdf:
         shutil.copy(paper_dir / pdf_name, out_dir / pdf_name)
 
@@ -641,8 +806,20 @@ def build_index(entries: list[dict], cfg: dict) -> None:
          "title": e["title"],
          "date": e["date"]} for e in entries])
 
+    idx_url = abs_url(cfg, "")
+    og_abs = (abs_url(cfg, "assets/og-default.png")
+              if base_url(cfg) and (SITE / "assets" / "og-default.png").exists() else "")
+    idx_meta = meta_tag("robots", "index, follow, max-image-preview:large, max-snippet:-1")
+    idx_meta += meta_tag("author", cite_name(cfg.get("author_display") or cfg.get("author", "")))
+    idx_meta += render_social(cfg, title=cfg.get("title", ""),
+                              description=cfg.get("tagline", ""), url=idx_url,
+                              image=og_abs, kind="website")
+    idx_meta += index_jsonld(cfg, entries)
+
     (SITE / "index.html").write_text(INDEX_TMPL.format(
         theme_boot=THEME_BOOT,
+        canonical=(f'<link rel="canonical" href="{idx_url}">\n' if idx_url.startswith("http") else ""),
+        meta_tags=idx_meta,
         site_title=html.escape(cfg.get("title", "Papers")),
         tagline=html.escape(cfg.get("tagline", "")),
         about=render_about(cfg),
@@ -655,6 +832,108 @@ def build_index(entries: list[dict], cfg: dict) -> None:
     ))
 
 
+
+# --------------------------------------------------------------------------- #
+# Crawler-facing files
+# --------------------------------------------------------------------------- #
+AI_CRAWLERS = [
+    "GPTBot", "OAI-SearchBot", "ChatGPT-User",
+    "ClaudeBot", "Claude-Web", "anthropic-ai",
+    "PerplexityBot", "Perplexity-User",
+    "Google-Extended", "Applebot-Extended", "meta-externalagent",
+    "Bytespider", "CCBot", "cohere-ai", "Diffbot", "Timpibot",
+]
+
+
+def write_robots(cfg: dict, entries: list[dict]) -> None:
+    allow_ai = str(cfg.get("allow_ai_crawlers", True)).lower() not in ("false", "no", "0")
+    lines = ["# robots.txt", "", "User-agent: *", "Allow: /", ""]
+    if allow_ai:
+        lines += [
+            "# AI and answer-engine crawlers are welcome. These papers are meant to be",
+            "# read and cited; see each paper's stated licence for reuse terms.",
+        ]
+        for ua in AI_CRAWLERS:
+            lines += [f"User-agent: {ua}", "Allow: /", ""]
+    else:
+        lines += ["# Asking AI crawlers not to train on this content.",
+                  "# This is an honoured convention, not an enforcement mechanism."]
+        for ua in AI_CRAWLERS:
+            lines += [f"User-agent: {ua}", "Disallow: /", ""]
+    b = base_url(cfg)
+    if b:
+        lines += [f"Sitemap: {b}sitemap.xml"]
+    (SITE / "robots.txt").write_text("\n".join(lines).rstrip() + "\n")
+
+
+def write_sitemap(cfg: dict, entries: list[dict]) -> None:
+    b = base_url(cfg)
+    if not b:
+        return
+    urls = [(b, max((e["date"] for e in entries), default=""), "weekly", "1.0")]
+    for e in entries:
+        urls.append((abs_url(cfg, f"{e['slug']}/"), e["date"], "monthly", "0.8"))
+    body = "".join(
+        "  <url>\n"
+        f"    <loc>{html.escape(loc, quote=True)}</loc>\n"
+        + (f"    <lastmod>{lastmod}</lastmod>\n" if lastmod else "")
+        + f"    <changefreq>{freq}</changefreq>\n"
+        f"    <priority>{prio}</priority>\n"
+        "  </url>\n"
+        for loc, lastmod, freq, prio in urls)
+    (SITE / "sitemap.xml").write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        f"{body}</urlset>\n")
+
+
+def write_llms_txt(cfg: dict, entries: list[dict]) -> None:
+    """An llms.txt index (llmstxt.org): a compact, link-rich map of the site
+    for language models, pointing at the markdown source of each paper."""
+    b = base_url(cfg)
+    name = cfg.get("title", "Papers")
+    who = cfg.get("author_display") or cfg.get("author", "")
+    out = [f"# {name}", ""]
+    if cfg.get("tagline"):
+        out += [f"> {cfg['tagline']}", ""]
+    if cfg.get("author_bio"):
+        out += [" ".join(cfg["author_bio"].split()), ""]
+    if who:
+        out += [f"Author: {who}", ""]
+    out += ["Each paper below links to its rendered page and to its Markdown",
+            "source, which is the cleanest form to read programmatically.", "",
+            "## Papers", ""]
+    for e in entries:
+        page = abs_url(cfg, f"{e['slug']}/") if b else f"{e['slug']}/"
+        md = abs_url(cfg, f"{e['slug']}/index.md") if b else f"{e['slug']}/index.md"
+        desc = " ".join(e["description"].split())
+        out.append(f"- [{e['title']}]({page}): {desc}")
+        bits = []
+        if e["date"]:
+            bits.append(f"published {e['date']}")
+        if e["authors"]:
+            bits.append("by " + ", ".join(cite_name(a.get("name", "")) for a in e["authors"]))
+        if e["tags"]:
+            bits.append("tags: " + ", ".join(e["tags"]))
+        if e["doi"]:
+            bits.append(f"doi: {doi_display(e['doi'])}")
+        if bits:
+            out.append(f"  ({'; '.join(bits)})")
+        out.append(f"  Markdown source: {md}")
+        pdf = f"{e['slug']}/{e['slug']}.pdf"
+        if (SITE / pdf).exists():
+            out.append(f"  PDF: {abs_url(cfg, pdf) if b else pdf}")
+        out.append("")
+    lic = cfg.get("default_license")
+    if lic:
+        resolved = resolve_license(lic, cfg)
+        if resolved:
+            out += ["## Licence", "",
+                    f"Unless a paper states otherwise, content is licensed {resolved[0]}"
+                    + (f" ({resolved[1]})" if resolved[1] else "") + ".", ""]
+    (SITE / "llms.txt").write_text("\n".join(out).rstrip() + "\n")
+
+
 # --------------------------------------------------------------------------- #
 def main() -> None:
     if SITE.exists():
@@ -663,6 +942,9 @@ def main() -> None:
     shutil.copy(SHARED / "css" / "paper.css", SITE / "assets" / "paper.css")
     shutil.copy(SHARED / "js" / "site.js", SITE / "assets" / "site.js")
     shutil.copy(SHARED / "js" / "paper.js", SITE / "assets" / "paper.js")
+    og_default = SHARED / "assets" / "og-default.png"
+    if og_default.exists():
+        shutil.copy(og_default, SITE / "assets" / "og-default.png")
     (SITE / ".nojekyll").write_text("")
 
     cfg = load_site_config()
@@ -676,6 +958,9 @@ def main() -> None:
         print(f"built: {e['slug']}{extra}")
 
     build_index(entries, cfg)
+    write_robots(cfg, entries)
+    write_sitemap(cfg, entries)
+    write_llms_txt(cfg, entries)
     (SITE / "__buildid").write_text(str(time.time()))
     print(f"index: {len(entries)} paper(s){'  [dev]' if DEV else ''}")
     print(f"output: {SITE}")
