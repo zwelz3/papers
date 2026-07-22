@@ -37,7 +37,7 @@ from pathlib import Path
 import markdown
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from icons import CC_ICON, ICONS, ICON_LABELS  # noqa: E402
+from icons import CC_ICON, ICONS, ICON_LABELS, THEME_TOGGLE  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 PAPERS = ROOT / "papers"
@@ -298,7 +298,7 @@ def render_figures(md: str):
         caps[m.group(1)] = m.group(2).strip()
         return f"@@FIGURE_{m.group(1)}@@"
 
-    return re.sub(r"\[\[FIGURE (\d+):\s*(.*?)\]\]", repl, md, flags=re.S), caps
+    return re.sub(r"\[\[FIGURE ([A-Za-z0-9]+):\s*(.*?)\]\]", repl, md, flags=re.S), caps
 
 
 # --------------------------------------------------------------------------- #
@@ -323,7 +323,7 @@ def render_topbar(entries: list[dict], current_slug: str, home_href: str) -> str
             '  <details class="tb-papers">\n'
             f'    <summary>All papers <span class="tb-count">{len(entries)}</span></summary>\n'
             f'    <ul class="tb-list">{"".join(items)}</ul>\n'
-            "  </details>\n</div>")
+            "  </details>\n" + THEME_TOGGLE + "\n</div>")
 
 
 def render_footer(cfg: dict, home_href: str, license_html: str = "") -> str:
@@ -342,6 +342,14 @@ def render_footer(cfg: dict, home_href: str, license_html: str = "") -> str:
     home = f'<a class="footer-home" href="{home_href}">All papers</a>' if home_href else ""
     return ('<footer class="site-footer">\n'
             f"  {name_html}\n  {icon_html}\n  {license_html}\n  {home}\n</footer>")
+
+
+# Set the theme before first paint so there is no flash of the wrong one.
+THEME_BOOT = """<script>
+(function(){var t;try{t=localStorage.getItem("theme");}catch(e){}
+if(!t){t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";}
+document.documentElement.setAttribute("data-theme",t);})();
+</script>"""
 
 
 DEV_SNIPPET = """
@@ -380,6 +388,7 @@ PAGE_TMPL = """<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+{theme_boot}
 <title>{title}</title>
 <meta name="description" content="{description}">
 {meta_tags}<link rel="stylesheet" href="../assets/paper.css">
@@ -402,6 +411,7 @@ INDEX_TMPL = """<!DOCTYPE html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+{theme_boot}
 <title>{site_title}</title>
 <meta name="description" content="{tagline}">
 <link rel="stylesheet" href="assets/paper.css">
@@ -411,6 +421,7 @@ INDEX_TMPL = """<!DOCTYPE html>
 <header class="lib-header">
   <h1 class="index-head">{site_title}</h1>
   <p class="index-sub">{tagline}</p>
+  {theme_toggle}
 </header>
 
 {about}
@@ -420,7 +431,18 @@ INDEX_TMPL = """<!DOCTYPE html>
     <input id="search" type="search" placeholder="Search papers..."
            autocomplete="off" aria-label="Search papers" />
   </div>
-  <div id="tag-filters" class="tag-filters">{tag_buttons}</div>
+  <div class="row-2">
+    <div id="tag-filters" class="tag-filters">{tag_buttons}</div>
+    <div class="sort-wrap">
+      <label for="sort">Sort</label>
+      <select id="sort" aria-label="Sort papers">
+        <option value="date-desc">Newest first</option>
+        <option value="date-asc">Oldest first</option>
+        <option value="title-asc">Title A&ndash;Z</option>
+        <option value="title-desc">Title Z&ndash;A</option>
+      </select>
+    </div>
+  </div>
 </div>
 
 <p id="result-count" class="result-count"></p>
@@ -492,8 +514,16 @@ def build_paper(entry: dict, cfg: dict, all_entries: list[dict]) -> None:
 
     for num, rel in figures.items():
         cap = caps.get(str(num), "")
-        fig = (f'<figure class="fig" id="figure-{num}">\n'
-               f'  <img src="{rel}" alt="{html.escape(cap, quote=True)}" />\n'
+        src = paper_dir / rel
+        if str(rel).lower().endswith(".svg") and src.exists():
+            # inline it: an <img>-embedded SVG cannot see the page's theme
+            # variables, so it would not follow the light/dark toggle
+            inner = src.read_text()
+            inner = re.sub(r"<\?xml.*?\?>", "", inner, flags=re.S).strip()
+            media = f'  <div class="fig-svg">{inner}</div>\n'
+        else:
+            media = f'  <img src="{rel}" alt="{html.escape(cap, quote=True)}" />\n'
+        fig = (f'<figure class="fig" id="figure-{num}">\n{media}'
                f"  <figcaption>Figure {num}. {cap}</figcaption>\n</figure>")
         body = body.replace(f"<p>@@FIGURE_{num}@@</p>", fig).replace(f"@@FIGURE_{num}@@", fig)
 
@@ -545,6 +575,7 @@ def build_paper(entry: dict, cfg: dict, all_entries: list[dict]) -> None:
         meta_tags += f'<meta name="citation_pdf_url" content="{pdf_name}">\n'
 
     page = PAGE_TMPL.format(
+        theme_boot=THEME_BOOT,
         title=title,
         description=html.escape(entry["description"][:180], quote=True),
         meta_tags=meta_tags,
@@ -606,15 +637,19 @@ def build_index(entries: list[dict], cfg: dict) -> None:
         {"slug": e["slug"],
          "text": " ".join([e["title"], e["subtitle"], e["description"], " ".join(e["tags"]),
                            " ".join(a.get("name", "") for a in e["authors"])]).lower(),
-         "tags": e["tags"]} for e in entries])
+         "tags": e["tags"],
+         "title": e["title"],
+         "date": e["date"]} for e in entries])
 
     (SITE / "index.html").write_text(INDEX_TMPL.format(
+        theme_boot=THEME_BOOT,
         site_title=html.escape(cfg.get("title", "Papers")),
         tagline=html.escape(cfg.get("tagline", "")),
         about=render_about(cfg),
         tag_buttons=tag_buttons,
         items="\n".join(items),
         papers_json=papers_json,
+        theme_toggle=THEME_TOGGLE,
         footer=render_footer(cfg, "", ""),
         dev=DEV_SNIPPET if DEV else "",
     ))
