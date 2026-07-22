@@ -1,8 +1,3 @@
-# Absolute base URL of the published site. Required for link previews,
-# canonical URLs, and the sitemap: Open Graph images must be absolute.
-# Include the trailing slash.
-base_url: https://zwelz3.github.io/papers/
-
 title: Papers
 tagline: Working notes and postmortems on things I have built.
 
@@ -22,10 +17,6 @@ author_bio: >
   design notes, postmortems, and ideas I have taken far enough to have an opinion
   about. Several are accounts of things that did not work, written up because the
   reasoning still seems worth having on the record.
-
-# Crawling. Set allow_ai_crawlers to false to ask AI crawlers to stay out
-# (it is an honoured convention, not an enforcement mechanism).
-allow_ai_crawlers: true
 
 default_license: CC-BY-4.0
 links:

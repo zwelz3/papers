@@ -93,13 +93,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         super().end_headers()
 
     def log_message(self, fmt, *args):  # quieter console
-        # log_error routes through here with args like (HTTPStatus, str), so
-        # format first instead of assuming args[0] is a string
-        try:
-            msg = fmt % args if args else fmt
-        except TypeError:
-            msg = fmt
-        if "__buildid" not in msg:
+        if "__buildid" not in (args[0] if args else ""):
             super().log_message(fmt, *args)
 
 

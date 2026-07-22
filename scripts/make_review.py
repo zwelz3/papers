@@ -27,16 +27,16 @@ def main() -> None:
     if not src.exists():
         sys.exit(f"not built: {src} (run scripts/build.py first)")
 
-    html = src.read_text(encoding="utf-8")
+    html = src.read_text()
 
     # inline CSS
-    css = (SITE / "assets" / "paper.css").read_text(encoding="utf-8")
+    css = (SITE / "assets" / "paper.css").read_text()
     html = html.replace(
         '<link rel="stylesheet" href="../assets/paper.css">',
         f"<style>\n{css}\n</style>")
 
     # inline the paper JS (nav pane + scroll-spy)
-    js = (SITE / "assets" / "paper.js").read_text(encoding="utf-8")
+    js = (SITE / "assets" / "paper.js").read_text()
     html = html.replace(
         '<script src="../assets/paper.js" defer></script>',
         f"<script>\n{js}\n</script>")
@@ -61,8 +61,7 @@ def main() -> None:
     html = html.replace('<a class="footer-home" href="../">',
                         f'<a class="footer-home" {dead}>')
 
-    out.write_text(html, encoding="utf-8")
-
+    out.write_text(html)
     leftover = html.count('href="../') + html.count('src="../') + html.count('src="images/')
     print(f"wrote {out}  ({len(html)/1024/1024:.2f} MB, external refs: {leftover})")
 

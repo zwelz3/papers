@@ -1,4 +1,3 @@
 # Core build dependencies (all that CI needs).
 markdown>=3.5
 PyYAML>=6.0
-Pygments>=2.17
