@@ -571,12 +571,22 @@ INDEX_TMPL = """<!DOCTYPE html>
 {about}
 
 <div class="lib-controls">
-  <div class="search-wrap">
-    <input id="search" type="search" placeholder="Search papers..."
-           autocomplete="off" aria-label="Search papers" />
-  </div>
-  <div class="row-2">
-    <div id="tag-filters" class="tag-filters">{tag_buttons}</div>
+  <div class="controls-row">
+    <div class="search-wrap">
+      <input id="search" type="search" placeholder="Search papers..."
+             autocomplete="off" aria-label="Search papers" />
+    </div>
+    <details id="tag-filter" class="tag-filter">
+      <summary aria-label="Filter by tag">Filter<span id="filter-count"
+        class="filter-count" hidden>0</span></summary>
+      <div class="tag-panel">
+        <div class="tag-panel-head">
+          <span>Filter by tag</span>
+          <button type="button" id="tag-clear" class="tag-clear">Clear</button>
+        </div>
+        <ul class="tag-list">{tag_options}</ul>
+      </div>
+    </details>
     <div class="sort-wrap">
       <label for="sort">Sort</label>
       <select id="sort" aria-label="Sort papers">
@@ -588,6 +598,7 @@ INDEX_TMPL = """<!DOCTYPE html>
     </div>
   </div>
 </div>
+<div id="active-tags" class="active-tags"></div>
 
 <p id="result-count" class="result-count"></p>
 <ul id="paper-list" class="paper-list">
@@ -770,9 +781,12 @@ def build_index(entries: list[dict], cfg: dict) -> None:
         for t in e["tags"]:
             tag_counts[t] = tag_counts.get(t, 0) + 1
     all_tags = sorted(tag_counts, key=lambda t: (-tag_counts[t], t))
-    tag_buttons = "".join(
-        f'<button class="tag-btn" data-tag="{html.escape(t)}">{html.escape(t)}'
-        f'<span class="tag-count">{tag_counts[t]}</span></button>' for t in all_tags)
+    tag_options = "".join(
+        '<li><label class="tag-opt">'
+        f'<input type="checkbox" value="{html.escape(t, quote=True)}">'
+        f'<span class="tag-opt-name">{html.escape(t)}</span>'
+        f'<span class="tag-count">{tag_counts[t]}</span>'
+        "</label></li>" for t in all_tags)
 
     items = []
     for e in entries:
@@ -823,7 +837,7 @@ def build_index(entries: list[dict], cfg: dict) -> None:
         site_title=html.escape(cfg.get("title", "Papers")),
         tagline=html.escape(cfg.get("tagline", "")),
         about=render_about(cfg),
-        tag_buttons=tag_buttons,
+        tag_options=tag_options,
         items="\n".join(items),
         papers_json=papers_json,
         theme_toggle=THEME_TOGGLE,

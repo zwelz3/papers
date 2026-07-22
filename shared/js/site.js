@@ -5,7 +5,10 @@
   data.forEach(function (p) { byslug[p.slug] = p; });
 
   var search = document.getElementById("search");
-  var tagFilters = document.getElementById("tag-filters");
+  var tagFilter = document.getElementById("tag-filter");
+  var filterCount = document.getElementById("filter-count");
+  var activeTagBox = document.getElementById("active-tags");
+  var tagClear = document.getElementById("tag-clear");
   var list = document.getElementById("paper-list");
   var empty = document.getElementById("empty-state");
   var count = document.getElementById("result-count");
@@ -84,16 +87,68 @@
     applySort();
   }
 
-  if (tagFilters) {
-    tagFilters.addEventListener("click", function (e) {
-      var btn = e.target.closest(".tag-btn");
-      if (!btn) return;
-      var tag = btn.getAttribute("data-tag");
-      if (activeTags.has(tag)) { activeTags.delete(tag); btn.classList.remove("on"); }
-      else { activeTags.add(tag); btn.classList.add("on"); }
+  function boxes() {
+    return tagFilter ? Array.prototype.slice.call(
+      tagFilter.querySelectorAll('.tag-opt input[type="checkbox"]')) : [];
+  }
+
+  function syncChrome() {
+    var n = activeTags.size;
+    if (filterCount) {
+      filterCount.textContent = String(n);
+      filterCount.hidden = n === 0;
+    }
+    if (!activeTagBox) return;
+    activeTagBox.textContent = "";
+    Array.from(activeTags).forEach(function (tag) {
+      var chip = document.createElement("span");
+      chip.className = "active-tag";
+      var label = document.createElement("span");
+      label.textContent = tag;
+      var x = document.createElement("button");
+      x.type = "button";
+      x.setAttribute("aria-label", "Remove filter: " + tag);
+      x.textContent = "\u00d7";
+      x.addEventListener("click", function () {
+        activeTags.delete(tag);
+        boxes().forEach(function (b) { if (b.value === tag) b.checked = false; });
+        syncChrome();
+        apply();
+      });
+      chip.appendChild(label);
+      chip.appendChild(x);
+      activeTagBox.appendChild(chip);
+    });
+  }
+
+  if (tagFilter) {
+    tagFilter.addEventListener("change", function (e) {
+      var box = e.target;
+      if (!box || box.type !== "checkbox") return;
+      if (box.checked) activeTags.add(box.value);
+      else activeTags.delete(box.value);
+      syncChrome();
+      apply();
+    });
+    // clicking outside closes the panel
+    document.addEventListener("click", function (e) {
+      if (tagFilter.open && !tagFilter.contains(e.target)) tagFilter.open = false;
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && tagFilter.open) tagFilter.open = false;
+    });
+  }
+
+  if (tagClear) {
+    tagClear.addEventListener("click", function () {
+      activeTags.clear();
+      boxes().forEach(function (b) { b.checked = false; });
+      syncChrome();
       apply();
     });
   }
+
+  syncChrome();
 
   apply();
 })();

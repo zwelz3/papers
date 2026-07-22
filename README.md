@@ -39,9 +39,12 @@ directory per paper, built to plain HTML and served by GitHub Pages.
 
 ## Features
 
-- **Library landing page** with client-side **search** (press `/` to focus),
-  **tag filtering** (click tags to narrow; multiple tags use AND), and
-  **sorting** (newest, oldest, title A-Z / Z-A). All static, no backend.
+- **Library landing page** with client-side **search** (press `/` to focus), a
+  **tag filter** (a dropdown of checkboxes; several tags combine with AND, and
+  applied filters show as dismissible chips), and **sorting** (newest, oldest,
+  title A-Z / Z-A). All static, no backend. Only the compact control row is
+  sticky; the tag list lives in the dropdown so it never occupies the viewport
+  while scrolling.
 - **Light and dark themes** with a toggle in the top bar. The choice is
   remembered; until one is made the site follows the OS preference. The theme is
   set before first paint, so there is no flash of the wrong one.
