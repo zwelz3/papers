@@ -29,6 +29,7 @@ directory per paper, built to plain HTML and served by GitHub Pages.
 │   ├── build.py                    # discovers papers, builds site/
 │   ├── serve.py                    # local server + live rebuild on file change
 │   ├── make_pdf.py                 # renders each paper to a PDF artifact
+│   ├── make_og.py                  # renders 1200x630 link-preview cards
 │   └── make_review.py              # single self-contained HTML for review/sharing
 ├── site/                           # build output (git-ignored, CI-generated)
 ├── requirements.txt                # core build deps
@@ -57,6 +58,11 @@ directory per paper, built to plain HTML and served by GitHub Pages.
   primary author.
 - **Author bio** on the landing page.
 - **Live rebuild** while editing locally.
+- **Link previews**: Open Graph and Twitter card tags on every page, backed by
+  a generated 1200x630 preview image per paper.
+- **SEO and machine readability**: canonical URLs, JSON-LD structured data,
+  `sitemap.xml`, `robots.txt`, an `llms.txt` index, Google Scholar `citation_*`
+  tags, and the Markdown source of each paper published alongside its HTML.
 - **Footer with profile links** (LinkedIn, GitHub, ORCID) on every page, driven
   by `site.yaml`, rendered as inline SVG icons so they work offline and follow
   the light/dark theme.
@@ -191,6 +197,42 @@ display name, with or without an honorific), the duplicate is dropped.
 `author_display` is used for bylines, so it can carry a title ("Dr. Zachary
 Welz"), while citations and BibTeX use the plain `author` with honorifics
 stripped.
+
+## Link previews and SEO
+
+Set `base_url` in `site.yaml` first. Absolute URLs are required for preview
+images, canonical links, and the sitemap; without it those are skipped.
+
+```bash
+pip install -r requirements-pdf.txt
+python scripts/make_og.py            # site card + one per paper
+python scripts/make_og.py <slug>     # just one
+```
+
+Cards are written to `papers/<slug>/images/og.png` and
+`shared/assets/og-default.png`, and are committed with the source. They are
+generated rather than reusing the hero image because preview surfaces (Slack,
+LinkedIn, iMessage, Discord) want a 1.91:1 frame with a legible title; a 4:3
+hero crops badly, and a paper with no hero would have no preview at all.
+
+Every build then emits:
+
+| What | Why |
+| --- | --- |
+| `og:*` / `twitter:*` tags | Rich previews when a link is shared. |
+| `<link rel="canonical">` | One authoritative URL per page. |
+| JSON-LD (`ScholarlyArticle`, `WebSite`, `Person`) | Structured data for search engines and for models that parse pages. Carries authors, ORCID, DOI, licence, and keywords. |
+| `citation_*` meta | Google Scholar indexing. |
+| `sitemap.xml` | Crawl coverage. |
+| `robots.txt` | Crawl policy, including named AI crawlers. |
+| `llms.txt` | A compact index for language models ([llmstxt.org](https://llmstxt.org)), linking each paper's Markdown source. |
+| `<slug>/index.md` | The Markdown source, served next to the HTML, so a crawler can read clean prose without stripping markup. |
+
+`allow_ai_crawlers` in `site.yaml` toggles whether named AI and answer-engine
+crawlers (GPTBot, ClaudeBot, PerplexityBot, Google-Extended and others) are
+allowed or asked to stay out. It defaults to allowing them, on the reasoning
+that these papers exist to be read and cited. Note that `robots.txt` is an
+honoured convention rather than an enforcement mechanism.
 
 ## Licensing
 
