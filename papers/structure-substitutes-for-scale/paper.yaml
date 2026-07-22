@@ -1,0 +1,26 @@
+slug: structure-substitutes-for-scale
+title: Structure Substitutes for Scale
+subtitle: Meta-problem solving, the trialogue, and knowledge-graph-mediated tool provisioning
+description: >
+  A concept paper arguing that tool knowledge belongs in a governable knowledge
+  graph outside the model, that agentic intelligence lives in the traversal
+  policy over that structure, and that graph-mediated provisioning should
+  flatten the gap between frontier and sub-billion-parameter models. Ends with
+  a preregistered, falsifiable experiment.
+date: 2026-07-21
+status: draft
+tags:
+  - agentic ai
+  - knowledge graphs
+  - mcp
+  - neural-structural
+  - meta-problem solving
+  - experiment design
+hero: images/hero.svg
+license: CC-BY-4.0
+figures:
+  "1": images/fig1-trialogue.svg
+  "2": images/fig2-provisioning.svg
+  "3": images/fig3-prediction.svg
+  "4": images/fig4-holon-mapping.svg
+  "5": images/fig5-crystallization-placeholder.svg

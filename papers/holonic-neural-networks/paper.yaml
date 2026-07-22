@@ -8,6 +8,7 @@ description: >
   fell down.
 date: 2026-07-19
 status: published
+license: CC-BY-4.0
 tags:
   - neural architecture
   - postmortem

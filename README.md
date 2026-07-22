@@ -17,7 +17,9 @@ directory per paper, built to plain HTML and served by GitHub Pages.
 │       │   └── ...
 │       ├── diagram-prompts.md      # (optional) how the figures were generated
 │       └── hero-prompt.md          # (optional)
-├── site.yaml                       # site title, tagline, author + profile links
+├── site.yaml                       # site title, tagline, author, links, default license
+├── LICENSE                         # MIT, covers the build code only
+├── LICENSE-CONTENT.md              # how the papers themselves are licensed
 ├── shared/
 │   ├── css/paper.css               # one stylesheet, linked by every page
 │   └── js/
@@ -101,6 +103,33 @@ The build regenerates `site/` from scratch each run:
   **not** add `---` separators, they double up).
 - Fenced code blocks (```` ``` ````) render as code; keep the language tag.
 - Title and subtitle come from `paper.yaml`, not from the Markdown body.
+
+## Licensing
+
+This repository is dual-licensed, which is the usual arrangement when code and
+writing live together:
+
+- **Code** (`scripts/`, `shared/`, build config) is under the MIT License. See
+  [LICENSE](LICENSE).
+- **Papers and figures** (`papers/`) are licensed per paper, via a `license:`
+  field in that paper's `paper.yaml`. See [LICENSE-CONTENT.md](LICENSE-CONTENT.md)
+  for the recognized identifiers and what each permits.
+
+```yaml
+# papers/<slug>/paper.yaml
+license: CC-BY-4.0        # or CC0-1.0, CC-BY-SA-4.0, CC-BY-NC-4.0, ARR, ...
+```
+
+Omit the field and the paper inherits `default_license` from `site.yaml`. For
+anything not in the built-in table, supply it explicitly:
+
+```yaml
+license:
+  name: Some Custom Terms
+  url: https://example.com/terms
+```
+
+The license renders in the paper's footer with a copyright line and a link.
 
 ## Deploy (GitHub Pages)
 

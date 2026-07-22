@@ -168,3 +168,8 @@ body.library .wrap{max-width:clamp(38rem,90vw,60rem);}
 .footer-home{font-size:13.5px;color:var(--text-faint);text-decoration:none;}
 .footer-home:hover{color:var(--accent);text-decoration:underline;}
 body.library .site-footer{margin-top:56px;}
+.footer-license{margin:0;font-size:13px;color:var(--text-faint);line-height:1.5;}
+.footer-license a{color:var(--text-faint);text-decoration:none;display:inline-flex;
+  align-items:center;gap:5px;}
+.footer-license a:hover{color:var(--accent);text-decoration:underline;}
+.cc-mark{width:15px;height:15px;display:block;flex:none;}

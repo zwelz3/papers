@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 660" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" role="img">
+<defs>
+<marker id="a-ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#55534d"/></marker>
+<marker id="a-acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#534AB7"/></marker>
+<marker id="a-rust" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#A85C3F"/></marker>
+</defs>
+<rect width="1200" height="660" fill="#ffffff"/>
+<text x="310" y="52" font-size="23" fill="#A85C3F" font-weight="650" text-anchor="middle">Injection (prevailing)</text>
+<text x="890" y="52" font-size="23" fill="#534AB7" font-weight="650" text-anchor="middle">Graph mediation (proposed)</text>
+<line x1="600" y1="30" x2="600" y2="630" stroke="#e6e3da" stroke-width="2"/>
+<circle cx="100" cy="96" r="9" fill="#A85C3F"/>
+<line x1="100" y1="108" x2="180" y2="158" stroke="#A85C3F" stroke-width="1.3" marker-end="url(#a-rust)"/>
+<circle cx="172" cy="96" r="9" fill="#A85C3F"/>
+<line x1="172" y1="108" x2="232" y2="158" stroke="#A85C3F" stroke-width="1.3" marker-end="url(#a-rust)"/>
+<circle cx="244" cy="96" r="9" fill="#A85C3F"/>
+<line x1="244" y1="108" x2="284" y2="158" stroke="#A85C3F" stroke-width="1.3" marker-end="url(#a-rust)"/>
+<circle cx="316" cy="96" r="9" fill="#A85C3F"/>
+<line x1="316" y1="108" x2="336" y2="158" stroke="#A85C3F" stroke-width="1.3" marker-end="url(#a-rust)"/>
+<circle cx="388" cy="96" r="9" fill="#A85C3F"/>
+<line x1="388" y1="108" x2="388" y2="158" stroke="#A85C3F" stroke-width="1.3" marker-end="url(#a-rust)"/>
+<circle cx="460" cy="96" r="9" fill="#A85C3F"/>
+<line x1="460" y1="108" x2="440" y2="158" stroke="#A85C3F" stroke-width="1.3" marker-end="url(#a-rust)"/>
+<text x="310" y="78" font-size="15" fill="#55534d" font-weight="400" text-anchor="middle">connected servers</text>
+<rect x="70" y="166" width="480" height="420" rx="14" fill="#ffffff" stroke="#23221f" stroke-width="2"/>
+<text x="310" y="198" font-size="18" fill="#55534d" font-weight="600" text-anchor="middle">model context</text>
+<rect x="92" y="214" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="166" y="214" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="240" y="214" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="314" y="214" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="388" y="214" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="462" y="214" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="92" y="248" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="166" y="248" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="240" y="248" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="314" y="248" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="388" y="248" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="462" y="248" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="92" y="282" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="166" y="282" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="240" y="282" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="314" y="282" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="388" y="282" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="462" y="282" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="92" y="316" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="166" y="316" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="240" y="316" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="314" y="316" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="388" y="316" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="462" y="316" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="92" y="350" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="166" y="350" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="240" y="350" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="314" y="350" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="388" y="350" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="462" y="350" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="92" y="384" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="166" y="384" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="240" y="384" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="314" y="384" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="388" y="384" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="462" y="384" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="92" y="418" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="166" y="418" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="240" y="418" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="314" y="418" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="388" y="418" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="462" y="418" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="92" y="452" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="166" y="452" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="240" y="452" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="314" y="452" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="388" y="452" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="462" y="452" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="92" y="486" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="166" y="486" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="240" y="486" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="314" y="486" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="388" y="486" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<rect x="462" y="486" width="66" height="26" rx="6" fill="#f2e4dc" stroke="#A85C3F" stroke-width="0.9"/>
+<text x="310" y="542" font-size="15" fill="#A85C3F" font-weight="400" text-anchor="middle" font-style="italic">54+ tool schemas, all-or-nothing</text>
+<rect x="92" y="552" width="436" height="26" rx="6" fill="#f6f4ee" stroke="#23221f" stroke-width="1.4"/>
+<text x="310" y="570" font-size="14.5" fill="#23221f" font-weight="400" text-anchor="middle">task (competing for attention)</text>
+<rect x="660" y="88" width="480" height="250" rx="16" fill="#f6f4ee" stroke="#23221f" stroke-width="2"/>
+<text x="900" y="120" font-size="17" fill="#23221f" font-weight="600" text-anchor="middle">full-resolution graph  (every server)</text>
+<line x1="720" y1="180" x2="790" y2="152" stroke="#e6e3da" stroke-width="2"/>
+<line x1="790" y1="152" x2="864" y2="196" stroke="#e6e3da" stroke-width="2"/>
+<line x1="864" y1="196" x2="938" y2="156" stroke="#e6e3da" stroke-width="2"/>
+<line x1="938" y1="156" x2="1012" y2="190" stroke="#e6e3da" stroke-width="2"/>
+<line x1="1012" y1="190" x2="1076" y2="158" stroke="#e6e3da" stroke-width="2"/>
+<line x1="720" y1="180" x2="748" y2="252" stroke="#e6e3da" stroke-width="2"/>
+<line x1="748" y1="252" x2="830" y2="276" stroke="#e6e3da" stroke-width="2"/>
+<line x1="830" y1="276" x2="912" y2="250" stroke="#534AB7" stroke-width="3"/>
+<line x1="912" y1="250" x2="992" y2="278" stroke="#e6e3da" stroke-width="2"/>
+<line x1="992" y1="278" x2="1064" y2="246" stroke="#e6e3da" stroke-width="2"/>
+<line x1="864" y1="196" x2="912" y2="250" stroke="#534AB7" stroke-width="3"/>
+<line x1="938" y1="156" x2="992" y2="278" stroke="#e6e3da" stroke-width="2"/>
+<line x1="748" y1="252" x2="700" y2="300" stroke="#e6e3da" stroke-width="2"/>
+<line x1="748" y1="252" x2="770" y2="308" stroke="#e6e3da" stroke-width="2"/>
+<line x1="1064" y1="246" x2="1096" y2="300" stroke="#e6e3da" stroke-width="2"/>
+<line x1="790" y1="152" x2="830" y2="276" stroke="#e6e3da" stroke-width="2"/>
+<circle cx="720" cy="180" r="7" fill="#86847d"/>
+<circle cx="790" cy="152" r="7" fill="#86847d"/>
+<circle cx="864" cy="196" r="9" fill="#534AB7"/>
+<circle cx="938" cy="156" r="7" fill="#86847d"/>
+<circle cx="1012" cy="190" r="7" fill="#86847d"/>
+<circle cx="1076" cy="158" r="7" fill="#86847d"/>
+<circle cx="748" cy="252" r="7" fill="#86847d"/>
+<circle cx="830" cy="276" r="9" fill="#534AB7"/>
+<circle cx="912" cy="250" r="9" fill="#534AB7"/>
+<circle cx="992" cy="278" r="7" fill="#86847d"/>
+<circle cx="1064" cy="246" r="7" fill="#86847d"/>
+<circle cx="700" cy="300" r="7" fill="#86847d"/>
+<circle cx="770" cy="308" r="7" fill="#86847d"/>
+<circle cx="1096" cy="300" r="7" fill="#86847d"/>
+<path d="M 880 338 C 880 372, 880 384, 880 406" fill="none" stroke="#534AB7" stroke-width="2.6" marker-end="url(#a-acc)"/>
+<text x="1010" y="384" font-size="16" fill="#534AB7" font-weight="600" text-anchor="middle">task-scoped projection</text>
+<rect x="700" y="414" width="400" height="172" rx="14" fill="#ffffff" stroke="#23221f" stroke-width="2"/>
+<text x="900" y="446" font-size="18" fill="#55534d" font-weight="600" text-anchor="middle">model context</text>
+<rect x="724" y="462" width="352" height="56" rx="8" fill="#f6f4ee" stroke="#23221f" stroke-width="1.4"/>
+<text x="900" y="496" font-size="17" fill="#23221f" font-weight="600" text-anchor="middle">task (room to think)</text>
+<rect x="724" y="532" width="110" height="30" rx="6" fill="#ece9fb" stroke="#534AB7" stroke-width="1.1"/>
+<text x="779" y="552" font-size="14.5" fill="#534AB7" font-weight="400" text-anchor="middle">tool 1</text>
+<rect x="846" y="532" width="110" height="30" rx="6" fill="#ece9fb" stroke="#534AB7" stroke-width="1.1"/>
+<text x="901" y="552" font-size="14.5" fill="#534AB7" font-weight="400" text-anchor="middle">tool 2</text>
+<rect x="968" y="532" width="110" height="30" rx="6" fill="#ece9fb" stroke="#534AB7" stroke-width="1.1"/>
+<text x="1023" y="552" font-size="14.5" fill="#534AB7" font-weight="400" text-anchor="middle">tool 3</text>
+</svg>

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" role="img">
+<defs>
+<marker id="a-ink" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#55534d"/></marker>
+<marker id="a-acc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#534AB7"/></marker>
+<marker id="a-rust" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#A85C3F"/></marker>
+</defs>
+<rect width="1200" height="620" fill="#ffffff"/>
+<rect x="24" y="24" width="1152" height="572" rx="18" fill="#f6f4ee" stroke="#86847d" stroke-width="2" stroke-dasharray="10 8"/>
+<line x1="960.0" y1="341.0" x2="823.7795885774392" y2="476.2630801457167" stroke="#ece9fb" stroke-width="2.4"/>
+<line x1="823.7795885774392" y1="476.2630801457167" x2="518.2072459104886" y2="306.1441936835402" stroke="#ece9fb" stroke-width="2.4"/>
+<line x1="518.2072459104886" y1="306.1441936835402" x2="274.53402887385795" y2="214.7188773304973" stroke="#ece9fb" stroke-width="2.4"/>
+<line x1="274.53402887385795" y1="214.7188773304973" x2="277.16697011970706" y2="408.3970610953062" stroke="#ece9fb" stroke-width="2.4"/>
+<line x1="277.16697011970706" y1="408.3970610953062" x2="524.1135122049193" y2="449.9136421618441" stroke="#ece9fb" stroke-width="2.4"/>
+<line x1="524.1135122049193" y1="449.9136421618441" x2="828.4894353393485" y2="245.53709261224083" stroke="#ece9fb" stroke-width="2.4"/>
+<line x1="828.4894353393485" y1="245.53709261224083" x2="959.9491090980295" y2="256.68609789086867" stroke="#ece9fb" stroke-width="2.4"/>
+<line x1="959.9491090980295" y1="256.68609789086867" x2="819.0064732316116" y2="458.18967154642604" stroke="#ece9fb" stroke-width="2.4"/>
+<circle cx="960.0" cy="341.0" r="6" fill="#ece9fb"/>
+<circle cx="823.7795885774392" cy="476.2630801457167" r="6" fill="#ece9fb"/>
+<circle cx="518.2072459104886" cy="306.1441936835402" r="6" fill="#ece9fb"/>
+<circle cx="274.53402887385795" cy="214.7188773304973" r="6" fill="#ece9fb"/>
+<circle cx="277.16697011970706" cy="408.3970610953062" r="6" fill="#ece9fb"/>
+<circle cx="524.1135122049193" cy="449.9136421618441" r="6" fill="#ece9fb"/>
+<circle cx="828.4894353393485" cy="245.53709261224083" r="6" fill="#ece9fb"/>
+<circle cx="959.9491090980295" cy="256.68609789086867" r="6" fill="#ece9fb"/>
+<circle cx="819.0064732316116" cy="458.18967154642604" r="6" fill="#ece9fb"/>
+<text x="600.0" y="276.0" font-size="30" fill="#55534d" font-weight="700" text-anchor="middle">Figure 5 · placeholder</text>
+<text x="600.0" y="314.0" font-size="19" fill="#86847d" font-weight="400" text-anchor="middle">Handler crystallization (conceptual image)</text>
+<text x="600.0" y="350.0" font-size="16.5" fill="#534AB7" font-weight="400" text-anchor="middle" font-style="italic">awaiting image-generation agent · prompt in diagram-prompts.md</text>
+</svg>
