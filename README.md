@@ -38,9 +38,12 @@ directory per paper, built to plain HTML and served by GitHub Pages.
 
 ## Features
 
-- **Library landing page** with client-side **search** (press `/` to focus) and
-  **tag filtering** (click tags to narrow; multiple tags use AND). All static,
-  no backend.
+- **Library landing page** with client-side **search** (press `/` to focus),
+  **tag filtering** (click tags to narrow; multiple tags use AND), and
+  **sorting** (newest, oldest, title A-Z / Z-A). All static, no backend.
+- **Light and dark themes** with a toggle in the top bar. The choice is
+  remembered; until one is made the site follows the OS preference. The theme is
+  set before first paint, so there is no flash of the wrong one.
 - **Per-paper nav pane**: a collapsible table of contents built from the paper's
   headings, with scroll-spy that highlights the section you're reading. It
   defaults open on wide screens, overlays on mobile, and remembers its state.
@@ -115,7 +118,15 @@ The build regenerates `site/` from scratch each run:
    ```
    [[FIGURE 1: caption text goes here]]
    ```
-   Map each figure number to an image file in `paper.yaml` under `figures:`.
+   Figure keys may be numeric or alphanumeric (`1`, `2`, `A1`). Map each to a
+   file in `paper.yaml` under `figures:`.
+
+   Raster figures (JPEG/PNG) are referenced with `<img>`. **SVG figures are
+   inlined into the page** so they inherit the theme variables and follow the
+   light/dark toggle, which an `<img>`-embedded SVG cannot do. Keep the original
+   hex colours in the SVG file: non-browser renderers (WeasyPrint, for the PDF)
+   read those, and dark mode is applied over them by CSS in
+   `shared/css/paper.css`.
 4. Drop the images in `papers/<your-slug>/images/`.
 5. Run `python scripts/build.py`. No script edits needed. The paper is added to
    the library index and its tags to the filter bar automatically.
