@@ -181,6 +181,9 @@ html[data-theme="dark"] .filter-count{color:#161b22;}
 .paper-thumb{display:block;border-radius:10px;overflow:hidden;border:1px solid var(--rule);
   background:var(--surface-2);aspect-ratio:3/2;}
 .paper-thumb img{display:block;width:100%;height:100%;object-fit:cover;}
+.paper-thumb-empty{display:flex;align-items:center;justify-content:center;}
+.paper-thumb-empty span{font-size:40px;font-weight:640;letter-spacing:-0.02em;
+  color:var(--text-faint);user-select:none;}
 .paper-body{min-width:0;}
 .paper-title{font-size:22px;font-weight:640;text-decoration:none;letter-spacing:-0.01em;line-height:1.2;
   display:inline-block;margin:0 0 2px;}
@@ -189,6 +192,9 @@ html[data-theme="dark"] .filter-count{color:#161b22;}
 .paper-desc{font-size:15.5px;margin:10px 0 0;color:var(--text);}
 .paper-card .tag-row{margin:12px 0 0;}
 .paper-meta{font-size:13px;color:var(--text-faint);margin:12px 0 0;display:flex;align-items:center;gap:10px;}
+.discuss-row{font-size:13.5px;color:var(--text-faint);margin:14px 0 0;}
+.discuss-row a{color:var(--text-soft);text-decoration:underline;text-underline-offset:2px;}
+.discuss-row a:hover{color:var(--text);}
 .badge-draft{display:inline-block;font-size:11px;letter-spacing:.04em;text-transform:uppercase;
   padding:2px 7px;border-radius:5px;background:var(--tag-bg);color:var(--text-soft);border:1px solid var(--tag-border);}
 .empty-state{color:var(--text-faint);font-size:16px;padding:30px 0;text-align:center;}
@@ -202,6 +208,7 @@ html[data-theme="dark"] .filter-count{color:#161b22;}
   .nav-toggle{padding:9px 11px;}
   .paper-card{grid-template-columns:1fr;gap:12px;}
   .paper-thumb{max-width:220px;}
+  .paper-thumb-empty{display:none;}
 }
 
 /* ---------- site footer (author + icon links) ---------- */

@@ -32,9 +32,15 @@ import re
 import shutil
 import sys
 import time
+import urllib.parse
 from pathlib import Path
 
 import markdown
+
+try:
+    import yaml
+except ImportError:
+    sys.exit("PyYAML is required.  pip install -r requirements.txt")
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from icons import CC_ICON, ICONS, ICON_LABELS, THEME_TOGGLE  # noqa: E402
@@ -51,70 +57,10 @@ DEV = "--dev" in sys.argv
 # YAML
 # --------------------------------------------------------------------------- #
 def load_yaml(path: Path) -> dict:
-    """PyYAML when available; otherwise a small parser covering what we use."""
-    try:
-        import yaml  # type: ignore
-        return yaml.safe_load(path.read_text()) or {}
-    except Exception:
-        pass
-
-    data: dict = {}
-    lines = path.read_text().splitlines()
-    i = 0
-    while i < len(lines):
-        raw = lines[i]
-        if not raw.strip() or raw.lstrip().startswith("#"):
-            i += 1
-            continue
-        m = re.match(r"^(\w[\w-]*):\s*(.*)$", raw)
-        if not m:
-            i += 1
-            continue
-        key, val = m.group(1), m.group(2).strip()
-
-        if val in (">", "|"):  # folded / literal block
-            block = []
-            i += 1
-            while i < len(lines) and (lines[i].startswith("  ") or not lines[i].strip()):
-                if lines[i].strip():
-                    block.append(lines[i].strip())
-                i += 1
-            data[key] = " ".join(block)
-            continue
-
-        if val == "":  # list, list-of-maps, or nested map
-            j = i + 1
-            items: list = []
-            submap: dict = {}
-            cur = None
-            while j < len(lines) and (lines[j].startswith("  ") or lines[j].startswith("\t")):
-                line = lines[j].strip()
-                indent = len(lines[j]) - len(lines[j].lstrip())
-                if line.startswith("- "):
-                    rest = line[2:].strip()
-                    if ":" in rest and not rest.split(":", 1)[1].strip().startswith("//"):
-                        cur = {}
-                        k2, v2 = rest.split(":", 1)
-                        cur[k2.strip()] = v2.strip().strip('"')
-                        items.append(cur)
-                    else:
-                        items.append(rest.strip('"'))
-                        cur = None
-                elif ":" in line:
-                    k2, v2 = line.split(":", 1)
-                    k2, v2 = k2.strip().strip('"'), v2.strip().strip('"')
-                    if cur is not None and indent >= 4:
-                        cur[k2] = v2
-                    else:
-                        submap[k2] = v2
-                j += 1
-            data[key] = items if items else submap
-            i = j
-            continue
-
-        data[key] = val.strip('"')
-        i += 1
-    return data
+    """Parse a YAML file. PyYAML is a required dependency; the build must
+    see the same parse everywhere, so there is deliberately no fallback.
+    """
+    return yaml.safe_load(path.read_text(encoding="utf-8")) or {}
 
 
 def load_site_config() -> dict:
@@ -223,6 +169,51 @@ def doi_url(doi: str) -> str:
 
 def doi_display(doi: str) -> str:
     return (doi or "").strip().replace("https://doi.org/", "").removeprefix("doi:").strip()
+
+
+# Friendly labels for common places a paper gets shared. Anything else
+# falls back to its bare hostname.
+KNOWN_SITES = {
+    "github.com": "GitHub", "gist.github.com": "GitHub",
+    "linkedin.com": "LinkedIn", "substack.com": "Substack",
+    "medium.com": "Medium", "x.com": "X", "twitter.com": "X",
+    "reddit.com": "Reddit", "news.ycombinator.com": "Hacker News",
+    "youtube.com": "YouTube", "bsky.app": "Bluesky",
+    "mastodon.social": "Mastodon", "researchgate.net": "ResearchGate",
+}
+
+
+def normalize_discussions(raw) -> list:
+    """paper.yaml `discussions:` entries -> [{label, url}, ...].
+
+    Each entry may be a bare URL string, or a {label, url} map when the
+    site name alone isn't descriptive enough.
+    """
+    out = []
+    for item in raw or []:
+        if isinstance(item, str):
+            label, link = "", item.strip()
+        elif isinstance(item, dict):
+            label, link = str(item.get("label") or "").strip(), str(item.get("url") or "").strip()
+        else:
+            continue
+        if not link:
+            continue
+        if not label:
+            host = urllib.parse.urlsplit(link).netloc.lower().removeprefix("www.")
+            base = ".".join(host.rsplit(".", 2)[-2:]) if host.count(".") > 1 else host
+            label = KNOWN_SITES.get(host) or KNOWN_SITES.get(base) or host
+        out.append({"label": label, "url": link})
+    return out
+
+
+def render_discussions(discussions: list) -> str:
+    if not discussions:
+        return ""
+    links = ", ".join(
+        f'<a href="{html.escape(d["url"], quote=True)}" target="_blank" '
+        f'rel="noopener">{html.escape(d["label"])}</a>' for d in discussions)
+    return f'<p class="discuss-row">Previously discussed on {links}</p>\n'
 
 
 def render_doi(doi: str) -> str:
@@ -374,6 +365,8 @@ def paper_jsonld(cfg: dict, entry: dict, url: str, image: str,
         data["datePublished"] = entry["date"]
     if entry["tags"]:
         data["keywords"] = ", ".join(entry["tags"])
+    if entry.get("discussions"):
+        data["discussionUrl"] = [d["url"] for d in entry["discussions"]]
     if image:
         data["image"] = image
     if lic and lic[1]:
@@ -642,17 +635,20 @@ def collect_meta(paper_dir: Path, cfg: dict) -> dict:
     meta = load_yaml(paper_dir / "paper.yaml")
     slug = meta.get("slug", paper_dir.name)
     hero = meta.get("hero")
+    # `or` fallbacks throughout: a bare `subtitle:` key parses to None, which
+    # must behave like an absent key, not crash the build
     return {
         "dir": paper_dir,
         "meta": meta,
         "slug": slug,
-        "title": meta.get("title", slug),
-        "subtitle": meta.get("subtitle", ""),
-        "description": meta.get("description", ""),
-        "date": str(meta.get("date", "")),
-        "status": meta.get("status", "published"),
-        "tags": meta.get("tags", []) or [],
-        "doi": meta.get("doi", ""),
+        "title": meta.get("title") or slug,
+        "subtitle": meta.get("subtitle") or "",
+        "description": meta.get("description") or "",
+        "date": str(meta.get("date") or ""),
+        "status": meta.get("status") or "published",
+        "tags": meta.get("tags") or [],
+        "doi": meta.get("doi") or "",
+        "discussions": normalize_discussions(meta.get("discussions")),
         "authors": paper_authors(meta, cfg),
         "hero": f"{slug}/{hero}" if hero else "",
     }
@@ -660,11 +656,12 @@ def collect_meta(paper_dir: Path, cfg: dict) -> dict:
 
 def build_paper(entry: dict, cfg: dict, all_entries: list[dict]) -> None:
     paper_dir, meta, slug = entry["dir"], entry["meta"], entry["slug"]
-    md_text = (paper_dir / "index.md").read_text()
+    md_text = (paper_dir / "index.md").read_text(encoding="utf-8")
 
     figures = meta.get("figures", {}) or {}
     md_text, caps = render_figures(md_text)
-    body = markdown.markdown(md_text, extensions=["fenced_code", "tables", "sane_lists"])
+    body = markdown.markdown(
+        md_text, extensions=["fenced_code", "tables", "sane_lists", "footnotes"])
     body, toc = add_heading_ids(body)
 
     for num, rel in figures.items():
@@ -673,7 +670,7 @@ def build_paper(entry: dict, cfg: dict, all_entries: list[dict]) -> None:
         if str(rel).lower().endswith(".svg") and src.exists():
             # inline it: an <img>-embedded SVG cannot see the page's theme
             # variables, so it would not follow the light/dark toggle
-            inner = src.read_text()
+            inner = src.read_text(encoding="utf-8")
             inner = re.sub(r"<\?xml.*?\?>", "", inner, flags=re.S).strip()
             media = f'  <div class="fig-svg">{inner}</div>\n'
         else:
@@ -709,6 +706,7 @@ def build_paper(entry: dict, cfg: dict, all_entries: list[dict]) -> None:
     if entry["tags"]:
         chips = "".join(f'<span class="tag">{html.escape(t)}</span>' for t in entry["tags"])
         head += f'<div class="tag-row">{chips}</div>\n'
+    head += render_discussions(entry["discussions"])
     head += render_cite_block(meta, entry, pdf_name if has_pdf else "")
 
     toc_items = "\n".join(
@@ -762,7 +760,8 @@ def build_paper(entry: dict, cfg: dict, all_entries: list[dict]) -> None:
 
     out_dir = SITE / slug
     out_dir.mkdir(parents=True, exist_ok=True)
-    (out_dir / "index.html").write_text(page)
+    (out_dir / "index.html").write_text(page, encoding="utf-8")
+
 
     if (paper_dir / "images").is_dir():
         shutil.copytree(paper_dir / "images", out_dir / "images", dirs_exist_ok=True)
@@ -803,8 +802,15 @@ def build_index(entries: list[dict], cfg: dict) -> None:
             bits.append(render_doi(e["doi"]))
         meta_html = f'<p class="paper-meta">{"".join(bits)}</p>' if bits else ""
         chips = "".join(f'<span class="tag">{html.escape(t)}</span>' for t in e["tags"])
-        thumb = (f'<a class="paper-thumb" href="{e["slug"]}/" tabindex="-1" aria-hidden="true">'
-                 f'<img src="{e["hero"]}" alt="" loading="lazy" /></a>' if e["hero"] else "")
+        if e["hero"]:
+            thumb = (f'<a class="paper-thumb" href="{e["slug"]}/" tabindex="-1" aria-hidden="true">'
+                     f'<img src="{e["hero"]}" alt="" loading="lazy" /></a>')
+        else:
+            # no hero: keep the grid column occupied so every card's body
+            # aligns; show the title's initial as a quiet monogram
+            initial = html.escape((e["title"].strip()[:1] or "?").upper())
+            thumb = (f'<a class="paper-thumb paper-thumb-empty" href="{e["slug"]}/" '
+                     f'tabindex="-1" aria-hidden="true"><span>{initial}</span></a>')
         items.append(f'<li class="paper-card" data-slug="{e["slug"]}">\n  {thumb}\n'
                      f'  <div class="paper-body">\n'
                      f'    <a class="paper-title" href="{e["slug"]}/">{html.escape(e["title"])}</a>\n'
@@ -843,7 +849,7 @@ def build_index(entries: list[dict], cfg: dict) -> None:
         theme_toggle=THEME_TOGGLE,
         footer=render_footer(cfg, "", ""),
         dev=DEV_SNIPPET if DEV else "",
-    ))
+    ), encoding="utf-8")
 
 
 
@@ -877,7 +883,8 @@ def write_robots(cfg: dict, entries: list[dict]) -> None:
     b = base_url(cfg)
     if b:
         lines += [f"Sitemap: {b}sitemap.xml"]
-    (SITE / "robots.txt").write_text("\n".join(lines).rstrip() + "\n")
+    (SITE / "robots.txt").write_text("\n".join(lines).rstrip() + "\n", encoding="utf-8")
+
 
 
 def write_sitemap(cfg: dict, entries: list[dict]) -> None:
@@ -898,7 +905,7 @@ def write_sitemap(cfg: dict, entries: list[dict]) -> None:
     (SITE / "sitemap.xml").write_text(
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-        f"{body}</urlset>\n")
+        f"{body}</urlset>\n", encoding="utf-8")
 
 
 def write_llms_txt(cfg: dict, entries: list[dict]) -> None:
@@ -945,7 +952,8 @@ def write_llms_txt(cfg: dict, entries: list[dict]) -> None:
             out += ["## Licence", "",
                     f"Unless a paper states otherwise, content is licensed {resolved[0]}"
                     + (f" ({resolved[1]})" if resolved[1] else "") + ".", ""]
-    (SITE / "llms.txt").write_text("\n".join(out).rstrip() + "\n")
+    (SITE / "llms.txt").write_text("\n".join(out).rstrip() + "\n", encoding="utf-8")
+
 
 
 # --------------------------------------------------------------------------- #
@@ -959,12 +967,15 @@ def main() -> None:
     og_default = SHARED / "assets" / "og-default.png"
     if og_default.exists():
         shutil.copy(og_default, SITE / "assets" / "og-default.png")
-    (SITE / ".nojekyll").write_text("")
+    (SITE / ".nojekyll").write_text("", encoding="utf-8")
+
 
     cfg = load_site_config()
     entries = [collect_meta(d, cfg) for d in sorted(PAPERS.iterdir())
                if d.is_dir() and (d / "paper.yaml").exists()]
-    entries.sort(key=lambda e: (e["status"] != "published", e["date"]), reverse=True)
+    # published first (newest first), then drafts (newest first), as the
+    # README promises
+    entries.sort(key=lambda e: (e["status"] == "published", e["date"]), reverse=True)
 
     for e in entries:
         build_paper(e, cfg, entries)
@@ -975,7 +986,8 @@ def main() -> None:
     write_robots(cfg, entries)
     write_sitemap(cfg, entries)
     write_llms_txt(cfg, entries)
-    (SITE / "__buildid").write_text(str(time.time()))
+    (SITE / "__buildid").write_text(str(time.time()), encoding="utf-8")
+
     print(f"index: {len(entries)} paper(s){'  [dev]' if DEV else ''}")
     print(f"output: {SITE}")
 

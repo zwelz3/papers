@@ -27,6 +27,8 @@ directory per paper, built to plain HTML and served by GitHub Pages.
 │       └── paper.js                # collapsible nav pane + scroll-spy
 ├── scripts/
 │   ├── build.py                    # discovers papers, builds site/
+│   ├── check.py                    # validates every paper; CI runs it before build
+│   ├── new_paper.py                # scaffolds a papers/<slug>/ folder
 │   ├── serve.py                    # local server + live rebuild on file change
 │   ├── make_pdf.py                 # renders each paper to a PDF artifact
 │   ├── make_og.py                  # renders 1200x630 link-preview cards
@@ -106,48 +108,27 @@ The build regenerates `site/` from scratch each run:
 
 ## Add a new paper
 
-1. Create `papers/<your-slug>/`.
-2. Add `paper.yaml` (copy an existing one and edit the fields):
-   ```yaml
-   slug: your-slug
-   title: Your Title
-   subtitle: An optional secondary line
-   description: >
-     A sentence or two for the library card and search index.
-   date: 2026-08-01
-   status: published        # or "draft" (still listed, badged, sorted after)
-   tags:                    # power the landing-page filter + paper header
-     - some tag
-     - another tag
-   hero: images/hero.jpeg   # optional
-   figures:
-     "1": images/fig1.jpeg
-   ```
-3. Write `index.md`. Reference figures with a marker that carries its caption:
-   ```
-   [[FIGURE 1: caption text goes here]]
-   ```
-   Figure keys may be numeric or alphanumeric (`1`, `2`, `A1`). Map each to a
-   file in `paper.yaml` under `figures:`.
+`python scripts/new_paper.py <your-slug>` scaffolds the folder;
+`python scripts/check.py` validates every paper (figure mappings, files,
+metadata) and is run by CI before the build, so a broken paper cannot deploy.
 
-   Raster figures (JPEG/PNG) are referenced with `<img>`. **SVG figures are
-   inlined into the page** so they inherit the theme variables and follow the
-   light/dark toggle, which an `<img>`-embedded SVG cannot do. Keep the original
-   hex colours in the SVG file: non-browser renderers (WeasyPrint, for the PDF)
-   read those, and dark mode is applied over them by CSS in
-   `shared/css/paper.css`.
-4. Drop the images in `papers/<your-slug>/images/`.
-5. Run `python scripts/build.py`. No script edits needed. The paper is added to
-   the library index and its tags to the filter bar automatically.
+**[AUTHORING.md](AUTHORING.md) is the complete reference**: every
+`paper.yaml` field and where it surfaces, the `index.md` conventions (dek,
+headings, figure markers, SVG inlining, footnotes), the publish -> PDF ->
+Zenodo DOI workflow, and exactly what `check.py` enforces. For converting
+existing Word or PDF documents into paper folders, see
+[INTAKE.md](INTAKE.md).
 
-### `index.md` conventions
+The short version:
 
-- The **first italic paragraph** becomes the styled "dek" (standfirst).
-- `## Heading` starts a section (a rule + heading is drawn automatically; do
-  **not** add `---` separators, they double up).
-- Fenced code blocks (```` ``` ````) render as code; keep the language tag.
-- Title and subtitle come from `paper.yaml`, not from the Markdown body.
-
+1. `python scripts/new_paper.py your-slug --title "Your Title"`
+2. Fill `paper.yaml` (title, date, description at minimum) and write
+   `index.md`: one italic opening paragraph as the dek, sections as `##`,
+   figures as `[[FIGURE 1: caption]]` markers mapped under `figures:`.
+3. Drop images in `papers/your-slug/images/`, then
+   `python scripts/check.py && python scripts/build.py` and preview with
+   `python scripts/serve.py`. No script edits needed; the library index and
+   tag filter update automatically.
 ## PDFs and DOIs
 
 Each paper can carry a PDF artifact and a DOI. The PDF is what you deposit with
@@ -161,7 +142,9 @@ python scripts/make_pdf.py <slug>        # just one
 
 The PDF is written to `papers/<slug>/<slug>.pdf` so it sits with the source and
 is version-controlled, and `build.py` copies it into the built site and links it
-from the page. Layout comes from the `@media print` rules in the shared
+from the page. `make_pdf.py` also records a `.pdf-source.sha256` stamp next to
+the PDF; if the paper's source changes afterwards, `check.py` warns that the
+committed PDF is stale. Layout comes from the `@media print` rules in the shared
 stylesheet, so the PDF drops the site chrome, paginates figures and code blocks
 without splitting them, and numbers its pages.
 

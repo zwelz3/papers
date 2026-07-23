@@ -23,6 +23,7 @@ Workflow for a DOI:
 """
 from __future__ import annotations
 
+import hashlib
 import shutil
 import sys
 import time
@@ -33,6 +34,24 @@ PAPERS = ROOT / "papers"
 SITE = ROOT / "site"
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+# Rendering a PDF also writes this stamp next to it: a hash of everything the
+# PDF was rendered from. scripts/check.py compares the stamp against the
+# current sources and warns when the committed PDF has gone stale.
+HASH_NAME = ".pdf-source.sha256"
+
+
+def source_hash(paper_dir: Path) -> str:
+    h = hashlib.sha256()
+    inputs = [paper_dir / "index.md", paper_dir / "paper.yaml"]
+    images = paper_dir / "images"
+    if images.is_dir():
+        inputs += sorted(p for p in images.iterdir() if p.is_file())
+    for p in inputs:
+        if p.exists():
+            h.update(p.name.encode())
+            h.update(p.read_bytes())
+    return h.hexdigest()
 
 
 def ensure_built() -> None:
@@ -60,6 +79,8 @@ def render(slug: str) -> Path | None:
     # keep the canonical copy next to the source, for git and for Zenodo
     out_src = PAPERS / slug / f"{slug}.pdf"
     shutil.copy(out_site, out_src)
+    (PAPERS / slug / HASH_NAME).write_text(source_hash(PAPERS / slug) + "\n", encoding="utf-8")
+
 
     size = out_site.stat().st_size / 1024
     print(f"  {slug}.pdf  ({size:,.0f} KB, {time.time()-t0:.1f}s) -> papers/{slug}/")

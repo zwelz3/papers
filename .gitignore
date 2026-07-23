@@ -11,6 +11,9 @@ venv/
 .DS_Store
 *.swp
 
+#
+LICENSE-CONTENT.md
+
 # Paper PDFs are committed on purpose: they are the artifact uploaded to
 # Zenodo to mint a DOI, and are linked from the built pages.
 !papers/**/*.pdf
