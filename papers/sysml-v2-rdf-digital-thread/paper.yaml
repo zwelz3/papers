@@ -1,0 +1,29 @@
+slug: sysml-v2-rdf-digital-thread
+title: SysML v2, RDF, and an Open Digital Thread
+subtitle: A dialogue on dividing responsibilities between MBSE and knowledge systems
+description: >
+  A question-and-answer exploration of the boundary between model-based
+  systems engineering and semantic knowledge systems: motivating RDF as the
+  digital thread substrate while keeping UML/SysML/UAF as the authoritative
+  modeling layer, the OSLC "shape gap" that makes SHACL the necessary
+  validation layer, and the UK IES ontology's pivot away from IDEAS as
+  precedent for INCOSE DEIX.
+date: 2025-11-06
+status: draft
+license: CC-BY-4.0
+
+# Zenodo DOI. Leave blank until minted.
+doi: ""
+
+# The primary author from site.yaml is always included first.
+authors: []
+
+tags:
+  - SysML
+  - RDF
+  - OSLC
+  - SHACL
+  - digital thread
+  - INCOSE DEIX
+
+figures: {}

@@ -9,6 +9,14 @@ description: >
 date: 2026-07-19
 status: published
 license: CC-BY-4.0
+
+# Zenodo DOI. Leave blank until minted; the citation block and DOI chip
+# appear automatically once it is filled in.
+doi: ""
+
+# The primary author from site.yaml is always included first. List
+# co-authors here; each may be a bare name or a name/orcid/affiliation map.
+authors: []
 tags:
   - neural architecture
   - postmortem

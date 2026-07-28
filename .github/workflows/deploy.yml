@@ -24,6 +24,8 @@ jobs:
           python-version: "3.12"
       - name: Install dependencies
         run: pip install -r requirements.txt
+      - name: Validate papers
+        run: python scripts/check.py
       - name: Build site
         run: python scripts/build.py
       - name: Upload artifact

@@ -1,6 +1,32 @@
+# Absolute base URL of the published site. Required for link previews,
+# canonical URLs, and the sitemap: Open Graph images must be absolute.
+# Include the trailing slash.
+base_url: https://zwelz3.github.io/papers/
+
 title: Papers
 tagline: Working notes and postmortems on things I have built.
+
+# Primary author. Always ingested as the first author of every paper.
 author: Zachary Welz
+author_display: Dr. Zachary Welz
+author_role: Knowledge Engineering Lead
+author_affiliation: Peerless
+# author_portrait: assets/portrait.jpg   # optional; drop the file in shared/assets/
+author_bio: >
+  I work on digital engineering: model-based systems engineering, semantic
+  knowledge graphs, and the tooling that connects them. My background is a PhD in
+  nuclear engineering, where I applied machine learning to bridge numerical
+  operating data with unstructured maintenance records.
+
+  These pages are where I put longer-form work that does not fit in a repo README:
+  design notes, postmortems, and ideas I have taken far enough to have an opinion
+  about. Several are accounts of things that did not work, written up because the
+  reasoning still seems worth having on the record.
+
+# Crawling. Set allow_ai_crawlers to false to ask AI crawlers to stay out
+# (it is an honoured convention, not an enforcement mechanism).
+allow_ai_crawlers: true
+
 default_license: CC-BY-4.0
 links:
   linkedin: https://www.linkedin.com/in/zachwelz

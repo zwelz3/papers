@@ -1,0 +1,30 @@
+slug: on-digital-twin
+title: Digital Twin as Artifact and Role
+subtitle: A Pattern for Digital Engineering Information Exchange
+description: >
+  The digital twin does not need another definition; it needs a structure.
+  This paper separates the persistent digital twin artifact (an information
+  content entity) from the contextual digital twin role it bears when
+  realized in processes, grounded in the Common Core Ontologies, with RDF
+  examples covering LVC modes, coupling, and data-source binding.
+date: 2026-02-17
+status: draft
+license: CC-BY-4.0
+
+# Zenodo DOI. Leave blank until minted.
+doi: ""
+
+# The primary author from site.yaml is always included first.
+authors: []
+
+tags:
+  - digital twin
+  - ontology
+  - digital engineering
+  - digital thread
+  - CCO
+
+hero: images/hero.png
+figures:
+  "1": images/fig1-artifact-role-process.png
+  "2": images/fig2-lifecycle.png

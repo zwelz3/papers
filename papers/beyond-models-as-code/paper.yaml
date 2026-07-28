@@ -1,0 +1,27 @@
+slug: beyond-models-as-code
+title: Beyond Models as Code
+subtitle: The Diminishing Case for Traditional MBSE in the Age of LLMs and Semantic Technologies
+description: >
+  SysML v2's "models as code" turn is directionally sound but may not go far
+  enough. General-purpose languages, LLMs as the translation layer, and RDF
+  technologies as the ontological foundation suggest an inverted "code as
+  models" paradigm that dissolves MBSE as a distinct technical discipline,
+  leaving the institutional case as its strongest remaining defense.
+date: 2026-05-29
+status: draft
+license: CC-BY-4.0
+
+# Zenodo DOI. Leave blank until minted.
+doi: ""
+
+# The primary author from site.yaml is always included first.
+authors: []
+
+tags:
+  - MBSE
+  - SysML
+  - LLMs
+  - RDF
+  - digital engineering
+
+figures: {}

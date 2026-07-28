@@ -1,0 +1,26 @@
+<svg class="dfig" viewBox="0 0 640 190" role="img" aria-label="ASoT evaluation as a governance activity consuming evidence and producing an authority assertion in a learning loop"><defs><marker id="aG-6" markerWidth="9" markerHeight="9" refX="7.5" refY="4" orient="auto"><polygon points="0,0 8,4 0,8" fill="#54626E"/></marker><marker id="aGs-6" markerWidth="9" markerHeight="9" refX="1" refY="4" orient="auto"><polygon points="8,0 0,4 8,8" fill="#54626E"/></marker><marker id="aI-6" markerWidth="9" markerHeight="9" refX="7.5" refY="4" orient="auto"><polygon points="0,0 8,4 0,8" fill="#3B47A0"/></marker><marker id="aT-6" markerWidth="9" markerHeight="9" refX="7.5" refY="4" orient="auto"><polygon points="0,0 8,4 0,8" fill="#0E7C86"/></marker><marker id="aA-6" markerWidth="9" markerHeight="9" refX="7.5" refY="4" orient="auto"><polygon points="0,0 8,4 0,8" fill="#B26A0F"/></marker></defs>
+      <rect x="26" y="54" width="176" height="66" rx="4" fill="#fff" stroke="#54626E" stroke-width="1.5"/>
+      <text x="114" y="78" text-anchor="middle" font-family="Consolas, monospace" font-size="11" fill="#141E27">Evidence</text>
+      <text x="114" y="93" text-anchor="middle" font-family="Cambria, Georgia, serif" font-size="9.5" fill="#54626E">process metadata:</text>
+      <text x="114" y="106" text-anchor="middle" font-family="Cambria, Georgia, serif" font-size="9.5" fill="#54626E">provenance + references</text>
+
+      <line x1="202" y1="87" x2="252" y2="87" stroke="#54626E" stroke-width="1.7" marker-end="url(#aG-6)"/>
+
+      <rect x="254" y="54" width="176" height="66" rx="4" fill="#fff" stroke="#54626E" stroke-width="1.7"/>
+      <text x="342" y="78" text-anchor="middle" font-family="Consolas, monospace" font-size="11" fill="#141E27">ASoT Evaluation</text>
+      <text x="342" y="93" text-anchor="middle" font-family="Cambria, Georgia, serif" font-size="9.5" fill="#54626E">activity: agent applies</text>
+      <text x="342" y="106" text-anchor="middle" font-family="Cambria, Georgia, serif" font-size="9.5" fill="#54626E">rules to evidence</text>
+
+      <line x1="430" y1="87" x2="480" y2="87" stroke="#B26A0F" stroke-width="1.7" marker-end="url(#aA-6)"/>
+
+      <rect x="482" y="54" width="132" height="66" rx="4" fill="#F5E9D6" stroke="#B26A0F" stroke-width="1.6"/>
+      <text x="548" y="76" text-anchor="middle" font-family="Consolas, monospace" font-size="10" fill="#B26A0F" font-weight="600">Authority</text>
+      <text x="548" y="90" text-anchor="middle" font-family="Consolas, monospace" font-size="10" fill="#B26A0F" font-weight="600">assertion</text>
+      <text x="548" y="105" text-anchor="middle" font-family="Cambria, Georgia, serif" font-size="9" fill="#54626E">node-role metadata</text>
+
+      <text x="114" y="138" text-anchor="middle" font-family="Cambria, Georgia, serif" font-size="9.5" fill="#54626E">provenance = evidence</text>
+      <text x="548" y="138" text-anchor="middle" font-family="Cambria, Georgia, serif" font-size="9.5" fill="#54626E">governance verdict</text>
+
+      <path d="M548 120 C 548 168, 114 168, 114 122" fill="none" stroke="#54626E" stroke-width="1.3" stroke-dasharray="5 4" marker-end="url(#aG-6)"/>
+      <text x="331" y="182" text-anchor="middle" font-family="Consolas, monospace" font-size="9.5" fill="#54626E">the assertion becomes evidence for the next evaluation (learning loop)</text>
+    </svg>

@@ -1,0 +1,27 @@
+slug: against-monolithic-cameo
+title: Against a Monolithic Cameo Ecosystem for MBSE
+subtitle: The Case for Open Digital Threads
+description: >
+  A case against treating Cameo Systems Modeler as an all-in-one systems
+  engineering platform: proprietary metamodel lock-in, SysML v1's semantic-web
+  incompatibility, integration-as-transformation brittleness, and the
+  long-lifecycle costs of monolithic tooling, with a federated
+  open-digital-thread architecture as the alternative.
+date: 2026-01-12
+status: draft
+license: CC-BY-4.0
+
+# Zenodo DOI. Leave blank until minted.
+doi: ""
+
+# The primary author from site.yaml is always included first.
+authors: []
+
+tags:
+  - MBSE
+  - SysML
+  - digital thread
+  - vendor lock-in
+  - knowledge graphs
+
+figures: {}

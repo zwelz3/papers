@@ -1,0 +1,9 @@
+# Needed for scripts/make_pdf.py (PDF artifacts) and scripts/make_og.py
+# (link-preview cards).
+#
+# WeasyPrint also needs system libraries. On Debian/Ubuntu:
+#   sudo apt-get install libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz0b libffi-dev
+# On macOS:
+#   brew install pango libffi
+weasyprint>=60
+Pillow>=10
