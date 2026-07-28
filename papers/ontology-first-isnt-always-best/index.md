@@ -1,6 +1,6 @@
 *Why should we discourage an ontology-first approach (whereby a comprehensive enterprise-level collaborative ontology is used), and instead use a federated incremental approach to integrate data from various systems?*
 
-> Note: A good context and example of federated approach (for upper-meta alignment) is Netflix's Unified Data Architecture (UDA) [link], which we will see referenced in this discussion.
+> Note: A good context and example of federated approach (for upper-meta alignment) is the [Netflix Unified Data Architecture (UDA)](https://netflixtechblog.com/uda-unified-data-architecture-6a6aee261d8d), which we will see referenced in this discussion.
 
 ## 1. The Ontology-First Temptation
 
@@ -152,7 +152,7 @@ cur.execute("DELETE FROM parts")
 cur.execute("INSERT INTO components (id,name) VALUES (?,?)", (1, "FlightControl"))
 cur.executemany(
     "INSERT INTO parts (id,component_id,part_number,part_type) VALUES (?,?,?,?)",
-    [(10, 1, "FC-SENSOR-01", "Sesor"), (11, 1, "FC-ACT-02", "Actuator")]
+    [(10, 1, "FC-SENSOR-01", "Sensor"), (11, 1, "FC-ACT-02", "Actuator")]
 )
 conn.commit()
 
@@ -209,7 +209,7 @@ ex:Component a owl:Class .
 <http://example.org/resource/Part/PART-10> a ex:Part,
         prov:Entity ;
     ex:partNumber "FC-SENSOR-01" ;
-    ex:partType "Sesor" ;
+    ex:partType "Sensor" ;
     prov:wasDerivedFrom [ rdfs:label "RDBMS" ] .
 
 <http://example.org/resource/Part/PART-11> a ex:Part,

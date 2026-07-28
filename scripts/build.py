@@ -411,6 +411,18 @@ def slugify(text: str) -> str:
     return _slug_re.sub("-", text.lower()).strip("-")
 
 
+def wrap_wide_blocks(body: str) -> str:
+    """Let code blocks and tables grow past the text column when the screen
+    has room. The .breakout wrapper is fit-content with min-width 100%, so
+    narrow content stays column-width and wide content widens up to the
+    viewport before falling back to horizontal scroll."""
+    body = re.sub(r'(<table class="codehilitetable">.*?</table>)',
+                  r'<div class="breakout code-block">\1</div>', body, flags=re.S)
+    body = re.sub(r'(<table>.*?</table>)',
+                  r'<div class="breakout table-wrap">\1</div>', body, flags=re.S)
+    return body
+
+
 def add_heading_ids(body_html: str):
     toc, seen = [], set()
 
@@ -529,6 +541,7 @@ PAGE_TMPL = """<!DOCTYPE html>
 <title>{page_title}</title>
 <meta name="description" content="{description}">
 {canonical}{meta_tags}<link rel="stylesheet" href="../assets/paper.css">
+<link rel="stylesheet" href="../assets/highlight.css">
 </head>
 <body class="has-nav">
 {topbar}
@@ -661,7 +674,10 @@ def build_paper(entry: dict, cfg: dict, all_entries: list[dict]) -> None:
     figures = meta.get("figures", {}) or {}
     md_text, caps = render_figures(md_text)
     body = markdown.markdown(
-        md_text, extensions=["fenced_code", "tables", "sane_lists", "footnotes"])
+        md_text,
+        extensions=["fenced_code", "tables", "sane_lists", "footnotes", "codehilite"],
+        extension_configs={"codehilite": {"guess_lang": False, "linenums": True}})
+    body = wrap_wide_blocks(body)
     body, toc = add_heading_ids(body)
 
     for num, rel in figures.items():
@@ -962,6 +978,7 @@ def main() -> None:
         shutil.rmtree(SITE)
     (SITE / "assets").mkdir(parents=True, exist_ok=True)
     shutil.copy(SHARED / "css" / "paper.css", SITE / "assets" / "paper.css")
+    shutil.copy(SHARED / "css" / "highlight.css", SITE / "assets" / "highlight.css")
     shutil.copy(SHARED / "js" / "site.js", SITE / "assets" / "site.js")
     shutil.copy(SHARED / "js" / "paper.js", SITE / "assets" / "paper.js")
     og_default = SHARED / "assets" / "og-default.png"

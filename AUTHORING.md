@@ -87,6 +87,14 @@ discussions:
 - **Markdown extras enabled:** pipe tables, fenced code blocks, footnotes
   (`[^1]` syntax), sane lists. No math rendering; if a paper ever needs
   equations, KaTeX has to be wired into the build first.
+- **Name the language on fenced blocks** (```` ```python ````, `turtle`,
+  `sparql`, `bash`, `yaml`, `json`, `text`, ...). Blocks get Pygments
+  highlighting (light + dark palettes), line numbers, and a copy button;
+  an unnamed or unknown language renders unhighlighted but still numbered.
+- **Wide content breathes.** Code blocks and tables occupy at least the text
+  column and widen up to the viewport when their content needs it, before
+  falling back to horizontal scrolling. Tables get a distinct header row,
+  cell borders, and alternating row shading once they exceed ten rows.
 - Keep images web-sized (a few hundred KB); they are committed to git and
   served as-is.
 
