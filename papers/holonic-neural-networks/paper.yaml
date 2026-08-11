@@ -1,6 +1,6 @@
 slug: holonic-neural-networks
 title: Holonic Neural Networks
-subtitle: What I Built, Why It Mostly Failed, and Why I Still Think the Idea Is Right
+subtitle: What I built, why it mostly failed, and why I still believe the idea is right
 description: >
   A postmortem on a neural architecture that treats structure and computation
   as the same object: what the idea was, how the reference implementation broke,
@@ -18,12 +18,10 @@ doi: ""
 # co-authors here; each may be a bare name or a name/orcid/affiliation map.
 authors: []
 tags:
-  - neural architecture
-  - postmortem
+  - neural-structural
   - knowledge graphs
-  - neurosymbolic
   - self-organizing systems
-  - neuromodulation
+  - holons
 hero: images/hero.jpeg
 figures:
   "1": images/fig1-holon-anatomy.jpeg

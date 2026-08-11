@@ -8,9 +8,9 @@ tagline: Working notes and postmortems on things I have built.
 
 # Primary author. Always ingested as the first author of every paper.
 author: Zachary Welz
-author_display: Dr. Zachary Welz
+author_display: Zachary Welz, PhD
 author_role: Knowledge Engineering Lead
-author_affiliation: Peerless
+author_affiliation: Peerless Tech.
 # author_portrait: assets/portrait.jpg   # optional; drop the file in shared/assets/
 author_bio: >
   I work on digital engineering: model-based systems engineering, semantic

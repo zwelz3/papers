@@ -52,6 +52,11 @@ SITE = ROOT / "site"
 
 DEV = "--dev" in sys.argv
 
+# Cache-busting token for static assets (css/js). Recomputed every build so a
+# rebuilt stylesheet is never masked by a stale browser cache. Reused as the
+# dev-reload __buildid so the two always agree.
+ASSET_V = str(time.time())
+
 
 # --------------------------------------------------------------------------- #
 # YAML
@@ -453,26 +458,21 @@ def render_figures(md: str):
 # --------------------------------------------------------------------------- #
 # Shared chrome
 # --------------------------------------------------------------------------- #
-def render_topbar(entries: list[dict], current_slug: str, home_href: str) -> str:
-    """Always-visible bar: home link plus a dropdown listing every paper.
+# The contents toggle lives inside the top bar so the two can never overlap.
+NAV_TOGGLE = ('<button class="nav-toggle" aria-expanded="false" aria-controls="nav-pane" '
+              'title="Contents">\n'
+              '  <span class="nav-toggle-bars"></span>'
+              '<span class="nav-toggle-label">Contents</span>\n'
+              "</button>")
 
-    Reachable without opening the contents pane.
-    """
-    items = []
-    for e in entries:
-        cls = "tb-item active" if e["slug"] == current_slug else "tb-item"
-        cur = ' aria-current="page"' if e["slug"] == current_slug else ""
-        sub = (f'<span class="tb-item-sub">{html.escape(e["subtitle"])}</span>'
-               if e.get("subtitle") else "")
-        items.append(f'<li><a class="{cls}" href="{home_href}{e["slug"]}/"{cur}>'
-                     f'<span class="tb-item-title">{html.escape(e["title"])}</span>'
-                     f"{sub}</a></li>")
+
+def render_topbar(home_href: str) -> str:
+    """Always-visible bar: contents toggle, a link home, and the theme switch."""
     return ('<div class="topbar">\n'
-            f'  <a class="tb-home" href="{home_href}">Papers</a>\n'
-            '  <details class="tb-papers">\n'
-            f'    <summary>All papers <span class="tb-count">{len(entries)}</span></summary>\n'
-            f'    <ul class="tb-list">{"".join(items)}</ul>\n'
-            "  </details>\n" + THEME_TOGGLE + "\n</div>")
+            f'  <a class="tb-home" href="{home_href}">'
+            '<span class="tb-home-arrow" aria-hidden="true">&larr;</span> Home</a>\n'
+            f"  {NAV_TOGGLE}\n"
+            + THEME_TOGGLE + "\n</div>")
 
 
 def render_footer(cfg: dict, home_href: str, license_html: str = "") -> str:
@@ -522,10 +522,7 @@ DEV_SNIPPET = """
 # --------------------------------------------------------------------------- #
 # Templates
 # --------------------------------------------------------------------------- #
-NAV_TMPL = """<button class="nav-toggle" aria-expanded="false" aria-controls="nav-pane" title="Contents">
-  <span class="nav-toggle-bars"></span><span class="nav-toggle-label">Contents</span>
-</button>
-<nav id="nav-pane" class="nav-pane" aria-label="On this page">
+NAV_TMPL = """<nav id="nav-pane" class="nav-pane" aria-label="On this page">
   <p class="nav-heading">On this page</p>
   <ul class="toc">
 {items}
@@ -540,8 +537,8 @@ PAGE_TMPL = """<!DOCTYPE html>
 {theme_boot}
 <title>{page_title}</title>
 <meta name="description" content="{description}">
-{canonical}{meta_tags}<link rel="stylesheet" href="../assets/paper.css">
-<link rel="stylesheet" href="../assets/highlight.css">
+{canonical}{meta_tags}<link rel="stylesheet" href="../assets/paper.css?v={asset_v}">
+<link rel="stylesheet" href="../assets/highlight.css?v={asset_v}">
 </head>
 <body class="has-nav">
 {topbar}
@@ -550,7 +547,7 @@ PAGE_TMPL = """<!DOCTYPE html>
 {body}
 {footer}
 </article>
-<script src="../assets/paper.js" defer></script>
+<script src="../assets/paper.js?v={asset_v}" defer></script>
 {dev}
 </body>
 </html>
@@ -564,7 +561,7 @@ INDEX_TMPL = """<!DOCTYPE html>
 {theme_boot}
 <title>{site_title}</title>
 <meta name="description" content="{tagline}">
-{canonical}{meta_tags}<link rel="stylesheet" href="assets/paper.css">
+{canonical}{meta_tags}<link rel="stylesheet" href="assets/paper.css?v={asset_v}">
 </head>
 <body class="library">
 <article class="wrap">
@@ -615,7 +612,7 @@ INDEX_TMPL = """<!DOCTYPE html>
 </article>
 
 <script>window.__PAPERS__ = {papers_json};</script>
-<script src="assets/site.js" defer></script>
+<script src="assets/site.js?v={asset_v}" defer></script>
 {dev}
 </body>
 </html>
@@ -767,11 +764,12 @@ def build_paper(entry: dict, cfg: dict, all_entries: list[dict]) -> None:
         canonical=(f'<link rel="canonical" href="{url}">\n' if url.startswith("http") else ""),
         description=html.escape(entry["description"][:180], quote=True),
         meta_tags=meta_tags,
-        topbar=render_topbar(all_entries, slug, "../"),
+        topbar=render_topbar("../"),
         nav=NAV_TMPL.format(items=toc_items),
         body=head + body,
         footer=render_footer(cfg, "../", lic_html),
         dev=DEV_SNIPPET if DEV else "",
+        asset_v=ASSET_V,
     )
 
     out_dir = SITE / slug
@@ -865,6 +863,7 @@ def build_index(entries: list[dict], cfg: dict) -> None:
         theme_toggle=THEME_TOGGLE,
         footer=render_footer(cfg, "", ""),
         dev=DEV_SNIPPET if DEV else "",
+        asset_v=ASSET_V,
     ), encoding="utf-8")
 
 
@@ -1003,7 +1002,7 @@ def main() -> None:
     write_robots(cfg, entries)
     write_sitemap(cfg, entries)
     write_llms_txt(cfg, entries)
-    (SITE / "__buildid").write_text(str(time.time()), encoding="utf-8")
+    (SITE / "__buildid").write_text(ASSET_V, encoding="utf-8")
 
     print(f"index: {len(entries)} paper(s){'  [dev]' if DEV else ''}")
     print(f"output: {SITE}")

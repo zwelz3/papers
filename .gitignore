@@ -17,3 +17,9 @@ LICENSE-CONTENT.md
 # Paper PDFs are committed on purpose: they are the artifact uploaded to
 # Zenodo to mint a DOI, and are linked from the built pages.
 !papers/**/*.pdf
+
+papers/staging/*
+.devcontainer/
+.env
+.mcp.json
+Miniforge3-Linux-x86_64.sh

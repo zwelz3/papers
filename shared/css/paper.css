@@ -4,6 +4,7 @@
   --text:#18202a; --text-soft:#4a5563; --text-faint:#78838f;
   --rule:#dde3ea; --accent:#3B5BDB; --accent-soft:#e6ecfb;
   --code-bg:#eef1f5; --code-text:#232c36; --code-border:#dbe1e9;
+  --code-fs:14px; --code-lh:1.6;
   --cap:#3f4a57;
   --tag-bg:#e9edf3; --tag-text:#4e5967; --tag-border:#d8dfe8;
   --maxw:clamp(38rem,84vw,52rem);
@@ -53,7 +54,7 @@ code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:0.86e
   border:1px solid var(--code-border);}
 pre{background:var(--code-bg);border-radius:10px;padding:18px 20px;overflow-x:auto;
   margin:22px 0;border:1px solid var(--code-border);}
-pre code{background:none;padding:0;border:none;font-size:14px;line-height:1.6;
+pre code{background:none;padding:0;border:none;font-size:var(--code-fs);line-height:var(--code-lh);
   color:var(--code-text);white-space:pre;word-break:normal;}
 blockquote{margin:22px 0;padding:2px 20px;border-left:3px solid var(--rule);color:var(--text-soft);}
 li>code,p>code{white-space:nowrap;}
@@ -73,11 +74,12 @@ figure.fig figcaption{font-size:14.5px;line-height:1.5;color:var(--cap);padding:
   white-space:nowrap;}
 
 /* ---------- collapsible nav pane (paper pages) ---------- */
-.nav-toggle{position:fixed;top:18px;left:18px;z-index:46;display:inline-flex;align-items:center;
-  gap:8px;padding:9px 13px 9px 11px;border:1px solid var(--rule);border-radius:10px;
-  background:var(--surface);color:var(--text);font:inherit;font-size:14px;cursor:pointer;
-  box-shadow:0 1px 3px rgba(0,0,0,.06);}
+/* Lives inside .topbar, so it flows with the bar instead of overlapping it. */
+.nav-toggle{flex:none;display:inline-flex;align-items:center;
+  gap:8px;padding:7px 12px 7px 10px;border:1px solid var(--rule);border-radius:9px;
+  background:var(--surface);color:var(--text);font:inherit;font-size:13.5px;cursor:pointer;}
 .nav-toggle:hover{border-color:var(--accent);}
+.nav-toggle:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
 .nav-toggle-bars{position:relative;width:16px;height:2px;background:currentColor;border-radius:2px;}
 .nav-toggle-bars::before,.nav-toggle-bars::after{content:"";position:absolute;left:0;width:16px;
   height:2px;background:currentColor;border-radius:2px;}
@@ -203,9 +205,9 @@ html[data-theme="dark"] .filter-count{color:#161b22;}
 @media (max-width:600px){
   body{font-size:17px;} .wrap{padding:40px 18px 90px;}
   h1{font-size:31px;} .subtitle{font-size:19px;} h2{font-size:21px;}
-  pre code{font-size:12.5px;} figure.hero{aspect-ratio:4/3;}
+  :root{--code-fs:12.5px;} figure.hero{aspect-ratio:4/3;}
   .nav-toggle-label{display:none;}
-  .nav-toggle{padding:9px 11px;}
+  .nav-toggle{padding:7px 10px;}
   .paper-card{grid-template-columns:1fr;gap:12px;}
   .paper-thumb{max-width:220px;}
   .paper-thumb-empty{display:none;}
@@ -232,37 +234,19 @@ body.library .site-footer{margin-top:56px;}
 .footer-license a:hover{color:var(--accent);text-decoration:underline;}
 .cc-mark{width:15px;height:15px;display:block;flex:none;}
 
-/* ---------- top bar: always-visible, all papers reachable ---------- */
+/* ---------- top bar: contents toggle + link home, always visible ---------- */
 .topbar{position:sticky;top:0;z-index:45;display:flex;align-items:center;gap:14px;
-  padding:10px 20px 10px 76px;background:color-mix(in srgb,var(--bg) 92%,transparent);
+  padding:10px 20px;background:color-mix(in srgb,var(--bg) 92%,transparent);
   backdrop-filter:saturate(150%) blur(8px);border-bottom:1px solid var(--rule);}
 @supports not (backdrop-filter:blur(1px)){.topbar{background:var(--bg);}}
-.tb-home{font-size:14.5px;font-weight:620;text-decoration:none;color:var(--text);
-  letter-spacing:-0.01em;}
+.tb-home{display:inline-flex;align-items:center;gap:6px;font-size:14.5px;font-weight:620;
+  text-decoration:none;color:var(--text);letter-spacing:-0.01em;white-space:nowrap;}
 .tb-home:hover{color:var(--accent);}
-.tb-papers{position:relative;}
-.tb-papers>summary{list-style:none;cursor:pointer;font-size:13.5px;color:var(--text-soft);
-  padding:5px 11px;border:1px solid var(--rule);border-radius:8px;background:var(--surface);
-  display:inline-flex;align-items:center;gap:7px;white-space:nowrap;}
-.tb-papers>summary::-webkit-details-marker{display:none;}
-.tb-papers>summary::after{content:"";width:5px;height:5px;border-right:1.5px solid currentColor;
-  border-bottom:1.5px solid currentColor;transform:rotate(45deg) translate(-1px,-1px);}
-.tb-papers[open]>summary::after{transform:rotate(-135deg) translate(-2px,-2px);}
-.tb-papers>summary:hover{border-color:var(--accent);color:var(--text);}
-.tb-count{font-size:11px;padding:1px 6px;border-radius:999px;background:var(--tag-bg);
-  color:var(--tag-text);font-variant-numeric:tabular-nums;}
-.tb-list{position:absolute;top:calc(100% + 8px);left:0;z-index:50;min-width:320px;max-width:min(440px,86vw);
-  max-height:min(60vh,460px);overflow-y:auto;margin:0;padding:6px;list-style:none;
-  background:var(--surface);border:1px solid var(--rule);border-radius:12px;
-  box-shadow:0 8px 28px rgba(0,0,0,.14);}
-.tb-list li{margin:0;}
-.tb-item{display:block;padding:9px 11px;border-radius:8px;text-decoration:none;color:var(--text);}
-.tb-item:hover{background:var(--surface-2);}
-.tb-item.active{background:var(--accent-soft);}
-.tb-item-title{display:block;font-size:14.5px;font-weight:560;line-height:1.3;}
-.tb-item-sub{display:block;font-size:12.5px;color:var(--text-faint);line-height:1.35;margin-top:2px;}
+.tb-home-arrow{font-weight:400;color:var(--text-faint);transition:transform .15s ease;}
+.tb-home:hover .tb-home-arrow{color:var(--accent);transform:translateX(-2px);}
 body.has-nav .wrap{padding-top:36px;}
-@media (min-width:1100px){body.has-nav.nav-open .topbar{padding-left:calc(var(--nav-w) + 20px);}}
+/* The bar is chrome: its controls stay put whether or not the pane is open. */
+@media (max-width:600px){.topbar{padding:9px 14px;gap:11px;}}
 
 /* ---------- authors, doi, pdf, cite ---------- */
 .author-row{display:flex;flex-wrap:wrap;gap:6px 18px;margin:14px 0 0;}
@@ -299,8 +283,6 @@ body.has-nav .wrap{padding-top:36px;}
 .paper-meta .doi-chip{font-size:11.5px;padding:2px 8px;}
 
 @media (max-width:600px){
-  .topbar{padding-left:64px;gap:10px;}
-  .tb-list{min-width:0;width:min(88vw,360px);}
   .about{grid-template-columns:1fr;padding:18px;}
   .about-portrait{width:76px;height:76px;}
 }
@@ -309,7 +291,7 @@ body.has-nav .wrap{padding-top:36px;}
 @media print{
   :root{--bg:#fff;--surface:#fff;--surface-2:#fafafa;--text:#000;--text-soft:#333;
     --text-faint:#555;--rule:#ccc;--cap:#333;--code-bg:#f6f6f6;--code-text:#111;
-    --code-border:#ddd;--accent:#333;--maxw:100%;}
+    --code-border:#ddd;--accent:#333;--maxw:100%;--code-fs:8pt;--code-lh:1.4;}
   @page{size:Letter;margin:18mm 16mm 20mm;
     @bottom-center{content:counter(page) " / " counter(pages);
       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
@@ -329,7 +311,13 @@ body.has-nav .wrap{padding-top:36px;}
   figure.fig{break-inside:avoid;padding:6pt;background:#fff;}
   figure.fig figcaption{font-size:8.5pt;}
   pre{break-inside:avoid;font-size:8pt;padding:8pt;}
-  pre code{font-size:8pt;line-height:1.4;}
+  /* the rule above is element-specificity and so loses to the .code-block
+     column rules; restate the print padding at matching specificity or the
+     two columns keep their 18px screen padding here */
+  .code-block td.linenos pre,.code-block td.code pre{
+    padding-top:8pt;padding-bottom:8pt;}
+  .code-block td.linenos pre{padding-left:8pt;padding-right:6pt;}
+  .code-block td.code pre{padding-left:10pt;padding-right:10pt;overflow-x:hidden;}
   .cite-box{break-inside:avoid;background:#fafafa;}
   .cite-box[open]>summary{border:none;}
   .author-row{display:block;margin:8pt 0 0;}
@@ -448,18 +436,47 @@ html[data-theme="dark"] .fig-svg [stroke="#e6cfa8"]{stroke:#544a33;}
 .table-wrap tbody:has(>tr:nth-child(11)) tr:nth-child(even)>*{
   background:color-mix(in srgb,var(--surface-2) 55%,transparent);}
 
-/* ---- highlighted code blocks (pygments linenos table) ---- */
+/* ---- highlighted code blocks (pygments linenos table) ----
+   Emitted markup (note the nesting -- .codehilite is the ANCESTOR of
+   .code-block, so a `.code-block .codehilite pre` selector matches nothing):
+     div.codehilite > div.breakout.code-block > table.codehilitetable > tr
+       > td.linenos > div.linenodiv > pre        <- line numbers
+       > td.code    > div          > pre > code  <- source
+   The two columns are independent <pre> elements laid out side by side, so
+   row N only lines up if BOTH resolve to the same vertical geometry and the
+   same line-box height. Keep them in one shared rule; styling only one side
+   is what lets them drift apart. */
 .code-block{background:var(--code-bg);border:1px solid var(--code-border);
   border-radius:10px;overflow:hidden;}
 .code-block table.codehilitetable{width:100%;border-collapse:collapse;margin:0;}
 .code-block table.codehilitetable td{border:none;padding:0;vertical-align:top;}
+
+/* Shared metrics + box reset for both columns.
+   - margin/border/background/radius are zeroed so neither <pre> picks up the
+     standalone `pre{margin:22px 0;border:1px}` block rule as a phantom offset.
+   - font-size AND line-height are set on each <pre> ITSELF, not just on the
+     inner <code>: each line box is max(the pre's own inline strut, its inline
+     content). If only <code> carries the metrics, the code column's strut
+     falls back to the inherited body font and highlight.css's bare
+     `pre{line-height:125%}`, making its rows a hair taller than the number
+     column's and accumulating drift down the block.
+   - vertical padding must match so row 1 starts at the same y. */
+.code-block td.linenos pre,
+.code-block td.code pre{
+  margin:0;border:none;border-radius:0;background:transparent;
+  font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  font-size:var(--code-fs);line-height:var(--code-lh);
+  padding-top:18px;padding-bottom:18px;}
 .code-block td.linenos{width:1px;user-select:none;-webkit-user-select:none;}
-.code-block td.linenos pre{margin:0;padding:18px 12px 18px 16px;background:transparent;
-  border:none;border-right:1px solid var(--code-border);border-radius:0;
-  text-align:right;color:var(--text-faint);font-size:13px;line-height:1.6;}
-.code-block .codehilite{margin:0;}
-.code-block .codehilite pre{margin:0;padding:18px 20px;background:transparent;
-  border:none;border-radius:0;overflow-x:auto;}
+.code-block td.linenos pre{padding-left:16px;padding-right:12px;
+  border-right:1px solid var(--code-border);
+  text-align:right;color:var(--text-faint);}
+.code-block td.code pre{padding-left:20px;padding-right:20px;overflow-x:auto;}
+/* the inner <code> must inherit, never restate, the metrics above -- a second
+   source of truth here is exactly what desynchronises the two columns */
+.code-block td.code pre code{background:none;border:none;padding:0;
+  font-family:inherit;font-size:inherit;line-height:inherit;
+  color:var(--code-text);white-space:pre;word-break:normal;}
 .code-copy{position:absolute;top:10px;right:10px;z-index:2;display:inline-flex;
   align-items:center;gap:6px;padding:5px 9px;font:inherit;font-size:12px;
   border:1px solid var(--rule);border-radius:8px;background:var(--surface);
