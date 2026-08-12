@@ -420,9 +420,15 @@ def wrap_wide_blocks(body: str) -> str:
     """Let code blocks and tables grow past the text column when the screen
     has room. The .breakout wrapper is fit-content with min-width 100%, so
     narrow content stays column-width and wide content widens up to the
-    viewport before falling back to horizontal scroll."""
+    viewport before falling back to horizontal scroll.
+
+    Code blocks get an inner .code-scroll element to do that scrolling. It has
+    to be a separate box from .breakout: .breakout owns the rounded clip and is
+    the positioning context for the copy button, and a scroll container cannot
+    be both without the button sliding away with the code."""
     body = re.sub(r'(<table class="codehilitetable">.*?</table>)',
-                  r'<div class="breakout code-block">\1</div>', body, flags=re.S)
+                  r'<div class="breakout code-block">'
+                  r'<div class="code-scroll">\1</div></div>', body, flags=re.S)
     body = re.sub(r'(<table>.*?</table>)',
                   r'<div class="breakout table-wrap">\1</div>', body, flags=re.S)
     return body
