@@ -450,17 +450,27 @@ html[data-theme="dark"] .fig-svg [stroke="#e6cfa8"]{stroke:#544a33;}
    row N only lines up if BOTH resolve to the same vertical geometry and the
    same line-box height. Keep them in one shared rule; styling only one side
    is what lets them drift apart. */
-.code-block{background:var(--code-bg);border:1px solid var(--code-border);
-  border-radius:10px;overflow:hidden;}
-/* Where a too-wide block actually scrolls. It has to sit here, between the
-   fit-content .breakout and the table: the table is an auto-layout table whose
-   cells size to their longest line, so it always grows to max-content and no
-   overflow ever reaches a <pre>. Without this box that overshoot just hits
-   .code-block's overflow:hidden and long lines are silently clipped -- which
-   is every line once the block is capped at viewport width on a phone.
-   overflow-y stays hidden so the rounded corners still clip; contain stops a
-   horizontal swipe from turning into browser back-navigation. */
-.code-scroll{overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;}
+/* .code-block has no rule of its own, by design. It is the SAME element as
+   .breakout (build.py emits `<div class="breakout code-block">`), so it already
+   sizes the block and already carries the position:relative that anchors the
+   copy button. It deliberately carries no box either: it used to clip, but an
+   element that both clips AND carries a transform (.breakout's translateX) is a
+   known way for a nested scroller to end up scrollable by script and dead to
+   touch on iOS. The clip lives on the scroller itself -- do not put an
+   overflow back here. */
+/* Where a too-wide block actually scrolls, and now also the visual box: a
+   scroll container clips to its own border-radius, so the border and background
+   lose nothing by moving here.
+   It has to sit between the fit-content .breakout and the table because the
+   table is auto-layout -- its cells size to their longest line, so it always
+   grows to max-content and no overflow ever reaches a <pre>. Without this box
+   that overshoot is simply clipped, which on a phone is most of every line.
+   overflow-y is deliberately left unset. Pairing overflow-x:auto with an
+   explicit overflow-y:hidden is a long-standing way to make a box scrollable
+   programmatically but not by finger in iOS Safari; unset computes to auto,
+   and there is no vertical overflow for it to act on. */
+.code-scroll{overflow-x:auto;overscroll-behavior-x:contain;
+  background:var(--code-bg);border:1px solid var(--code-border);border-radius:10px;}
 .code-block table.codehilitetable{width:100%;border-collapse:collapse;margin:0;}
 .code-block table.codehilitetable td{border:none;padding:0;vertical-align:top;}
 

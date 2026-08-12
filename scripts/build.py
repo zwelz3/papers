@@ -423,9 +423,12 @@ def wrap_wide_blocks(body: str) -> str:
     viewport before falling back to horizontal scroll.
 
     Code blocks get an inner .code-scroll element to do that scrolling. It has
-    to be a separate box from .breakout: .breakout owns the rounded clip and is
-    the positioning context for the copy button, and a scroll container cannot
-    be both without the button sliding away with the code."""
+    to be a separate box from .breakout: .breakout is the positioning context
+    for the copy button, and a scroll container cannot also be that without the
+    button sliding away with the code. .code-scroll additionally owns the
+    rounded clip and the border/background -- those cannot live on .breakout,
+    because an element that both clips and carries a transform (.breakout's
+    translateX) leaves a nested scroller unscrollable by touch on iOS."""
     body = re.sub(r'(<table class="codehilitetable">.*?</table>)',
                   r'<div class="breakout code-block">'
                   r'<div class="code-scroll">\1</div></div>', body, flags=re.S)
