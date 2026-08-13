@@ -10,9 +10,9 @@ date: 2026-07-19
 status: published
 license: CC-BY-4.0
 
-# Zenodo DOI. Leave blank until minted; the citation block and DOI chip
-# appear automatically once it is filled in.
-doi: "https://doi.org/10.5281/zenodo.21895791"
+# Zenodo concept DOI (always resolves to the newest version).
+# Version 1 is 10.5281/zenodo.21895791.
+doi: "https://doi.org/10.5281/zenodo.21895790"
 
 # The primary author from site.yaml is always included first. List
 # co-authors here; each may be a bare name or a name/orcid/affiliation map.

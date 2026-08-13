@@ -299,7 +299,14 @@ body.has-nav .wrap{padding-top:36px;}
   @page:first{@bottom-center{content:normal;}}
   body{font-size:10.5pt;line-height:1.5;background:#fff;}
   .wrap{max-width:100%;margin:0;padding:0;}
-  .topbar,.nav-toggle,.nav-pane,.footer-home,.cite-box>summary{display:none !important;}
+  .topbar,.nav-toggle,.nav-pane,.footer-home{display:none !important;}
+  /* Web-page furniture, not part of the paper. The tag row is a site
+     navigation control; the PDF chip points at the file you are already
+     reading; and the DOI chip plus the citation block are routinely WRONG in
+     a committed PDF -- it is rendered *before* the deposit is published, so
+     the DOI it would carry is at best reserved and at worst unregistered.
+     The DOI belongs on the Zenodo landing page, not baked into the artifact. */
+  .cite-box,.doi-chip,.pdf-chip,.tag-row{display:none !important;}
   body.has-nav .wrap{padding-top:0;}
   h1{font-size:22pt;margin:0 0 10pt;}
   .subtitle{font-size:13pt;margin-bottom:8pt;}
@@ -322,20 +329,14 @@ body.has-nav .wrap{padding-top:36px;}
      off the page, and unstick the gutter so it prints in place */
   .code-scroll{overflow:hidden;}
   .code-block td.linenos{position:static;}
-  .cite-box{break-inside:avoid;background:#fafafa;}
-  .cite-box[open]>summary{border:none;}
   .author-row{display:block;margin:8pt 0 0;}
   .author{display:inline;white-space:nowrap;font-size:11pt;}
   .author + .author::before{content:", ";white-space:normal;}
   .author-aff{display:inline;font-size:9.5pt;margin-left:4px;}
   .author-aff::before{content:" (";} .author-aff::after{content:")";}
   .orcid-inline{display:none;}
+  /* only the date survives in this row now; the chips are hidden above */
   .paper-meta-row{margin:6pt 0 0;gap:8pt;}
-  .doi-chip,.pdf-chip{border:none;padding:0;background:none;font-size:9pt;}
-  .pdf-chip{display:none;}
-  .tag-row{gap:5px;margin-top:8pt;}
-  .tag{margin-right:4px;}
-  .tag{font-size:8pt;padding:2px 6px;}
   .site-footer{margin-top:20pt;padding-top:10pt;break-inside:avoid;}
   .icon-link{border:none;width:auto;height:auto;}
   a{color:#000;}

@@ -1,5 +1,8 @@
 /* generated: pygmentize styles 'default' (light) + 'github-dark' (dark).
-   Regenerate via: python -c "from pygments.formatters import HtmlFormatter; ..." */
+   Regenerate via: python -c "from pygments.formatters import HtmlFormatter; ..."
+   NOT purely generated: the dark half's `td.linenos`/`span.linenos` rules must
+   be hand-scoped to html[data-theme="dark"] after every regeneration. See the
+   note above those rules. */
 pre { line-height: 125%; }
 td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
 span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
@@ -75,11 +78,17 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .codehilite .vi { color: #19177C } /* Name.Variable.Instance */
 .codehilite .vm { color: #19177C } /* Name.Variable.Magic */
 .codehilite .il { color: #666 } /* Literal.Number.Integer.Long */
-pre { line-height: 125%; }
-td.linenos .normal { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
-span.linenos { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
-td.linenos .special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
-span.linenos.special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+/* MANUAL FIX -- REAPPLY AFTER REGENERATING.
+   pygmentize prefixes the token classes with the style arg but emits the four
+   linenos rules unprefixed, so the github-dark copy below lands unscoped and,
+   being later in the file at equal specificity, beats the light rules on
+   lines 4-7 everywhere: light mode on screen AND print. That painted a
+   #0d1117 chip behind every line number in the PDF. The dark scope is added
+   by hand; the duplicate bare `pre { line-height: 125% }` is dropped. */
+html[data-theme="dark"] td.linenos .normal { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+html[data-theme="dark"] span.linenos { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+html[data-theme="dark"] td.linenos .special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+html[data-theme="dark"] span.linenos.special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
 html[data-theme="dark"] .codehilite .hll { background-color: #6e7681 }
 html[data-theme="dark"] .codehilite { background: #0d1117; color: #E6EDF3 }
 html[data-theme="dark"] .codehilite .c { color: #8B949E; font-style: italic } /* Comment */

@@ -129,6 +129,7 @@ The short version:
    `python scripts/check.py && python scripts/build.py` and preview with
    `python scripts/serve.py`. No script edits needed; the library index and
    tag filter update automatically.
+   
 ## PDFs and DOIs
 
 Each paper can carry a PDF artifact and a DOI. The PDF is what you deposit with

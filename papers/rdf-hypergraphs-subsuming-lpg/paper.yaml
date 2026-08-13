@@ -1,0 +1,35 @@
+slug: rdf-hypergraphs-subsuming-lpg
+title: The RDF vs. LPG Debate Is Quickly Becoming Irrelevant
+subtitle: RDF is already a hypergraph system; the LPG is a projection inside it
+description: >
+  Named graphs make RDF a hypergraph in practice: observations, classifications,
+  projections, provenance, and SHACL contracts coexist as graphs that are
+  simultaneously containers and participants. The LPG structure that Neo4j and
+  NetworkX need becomes just another named graph, validated by shapes before
+  projection, and the format debate dissolves into a tooling problem.
+date: 2026-03-23
+status: published
+license: CC-BY-4.0
+
+# Zenodo concept DOI (always resolves to the newest version).
+# Version 1 is 10.5281/zenodo.21921977.
+doi: "https://doi.org/10.5281/zenodo.21921976"
+
+# The primary author from site.yaml is always included first.
+authors: []
+
+tags:
+  - RDF
+  - named graphs
+  - knowledge graphs
+  - SHACL
+  - hypergraphs
+  - LPG
+
+hero: images/fig1-unifying-rdf-lpg.jpeg
+figures:
+  "1": images/fig1-unifying-rdf-lpg.jpeg
+  "2": images/fig2-hypergraph-structure.jpeg
+
+discussions:
+  - https://www.linkedin.com/posts/zachwelz_evolution-of-the-rdflpg-debate-activity-7441951914130546688-wUWs
