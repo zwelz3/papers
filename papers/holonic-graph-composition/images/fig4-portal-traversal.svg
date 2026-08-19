@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">
+<defs>
+<filter id="card" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="#0B1930" flood-opacity="0.09"/></filter>
+</defs>
+<rect x="0" y="0" width="1200" height="600" fill="#FAFBFC"/>
+
+<rect x="36" y="36" width="340" height="528" rx="20" fill="#DDE2EA" stroke="#A6AFBE" stroke-width="1.25"/>
+<text x="60" y="66" font-size="14" font-weight="700" fill="#3B47A0" letter-spacing="2.4">SOURCE HOLON</text>
+<text x="60" y="100" font-size="24" font-weight="700" fill="#141E27">HR Records</text>
+<text x="60" y="124" font-size="16" fill="#54626E">urn:holon:hr</text>
+<rect x="60" y="146" width="292" height="186" rx="14" fill="#fff" stroke="#A6AFBE" stroke-width="1.25" filter="url(#card)"/>
+<text x="84" y="178" font-size="13" font-weight="700" fill="#6b7785" letter-spacing="2">INTERIOR</text>
+<text x="84" y="212" font-size="20" font-weight="700" fill="#141E27">CCO-vocabulary triples</text>
+<text x="84" y="246" font-size="15" fill="#54626E">cco:Person</text>
+<text x="84" y="270" font-size="15" fill="#54626E">cco:DesignativeName</text>
+<text x="84" y="294" font-size="15" fill="#54626E">cco:OccupationRole</text>
+<rect x="60" y="352" width="292" height="186" rx="14" fill="#fff" stroke="#A6AFBE" stroke-width="1.25" filter="url(#card)"/>
+<text x="84" y="384" font-size="13" font-weight="700" fill="#6b7785" letter-spacing="2">BOUNDARY</text>
+<text x="84" y="418" font-size="20" font-weight="700" fill="#141E27">The portal definition</text>
+<text x="84" y="442" font-size="20" font-weight="700" fill="#141E27">lives here</text>
+<text x="84" y="476" font-size="15" fill="#54626E">cga:constructQuery</text>
+<text x="84" y="500" font-size="15" fill="#54626E">a stored CONSTRUCT query</text>
+
+<path d="M376 300 L412 300" stroke="#3B47A0" stroke-width="2.8" stroke-linecap="round"/>
+<path d="M412 293 L424 300 L412 307 Z" fill="#3B47A0"/>
+
+<rect x="430" y="36" width="340" height="528" rx="20" fill="#C9D6EA" stroke="#93A8C4" stroke-width="1.5"/>
+<text x="600" y="66" font-size="14" font-weight="700" fill="#3B47A0" letter-spacing="2.4" text-anchor="middle">PORTAL TRAVERSAL</text>
+<text x="600" y="100" font-size="24" font-weight="700" fill="#141E27" text-anchor="middle">cga:TransformPortal</text>
+<rect x="454" y="128" width="292" height="130" rx="14" fill="#fff" stroke="#93A8C4" stroke-width="1.25" filter="url(#card)"/>
+<circle cx="493" cy="166" r="16" fill="#3B47A0"/>
+<text x="493" y="173" font-size="17" font-weight="700" fill="#F2F6FC" text-anchor="middle">1</text>
+<text x="523" y="174" font-size="20" font-weight="700" fill="#141E27">Translate</text>
+<text x="478" y="212" font-size="15" fill="#54626E">The portal's CONSTRUCT rewrites</text>
+<text x="478" y="234" font-size="15" fill="#54626E">CCO into Schema.org.</text>
+<rect x="454" y="272" width="292" height="130" rx="14" fill="#fff" stroke="#93A8C4" stroke-width="1.25" filter="url(#card)"/>
+<circle cx="493" cy="310" r="16" fill="#3B47A0"/>
+<text x="493" y="317" font-size="17" font-weight="700" fill="#F2F6FC" text-anchor="middle">2</text>
+<text x="523" y="318" font-size="20" font-weight="700" fill="#141E27">Validate</text>
+<text x="478" y="356" font-size="15" fill="#54626E">The target's SHACL shapes</text>
+<text x="478" y="378" font-size="15" fill="#54626E">accept or reject the result.</text>
+<rect x="454" y="416" width="292" height="130" rx="14" fill="#fff" stroke="#93A8C4" stroke-width="1.25" filter="url(#card)"/>
+<circle cx="493" cy="454" r="16" fill="#3B47A0"/>
+<text x="493" y="461" font-size="17" font-weight="700" fill="#F2F6FC" text-anchor="middle">3</text>
+<text x="523" y="462" font-size="20" font-weight="700" fill="#141E27">Record</text>
+<text x="478" y="500" font-size="15" fill="#54626E">A prov:Activity lands in the</text>
+<text x="478" y="522" font-size="15" fill="#54626E">target's context graph.</text>
+
+<path d="M770 300 L806 300" stroke="#3B47A0" stroke-width="2.8" stroke-linecap="round"/>
+<path d="M806 293 L818 300 L806 307 Z" fill="#3B47A0"/>
+
+<rect x="824" y="36" width="340" height="528" rx="20" fill="#DDE2EA" stroke="#A6AFBE" stroke-width="1.25"/>
+<text x="848" y="66" font-size="14" font-weight="700" fill="#3B47A0" letter-spacing="2.4">TARGET HOLON</text>
+<text x="848" y="100" font-size="24" font-weight="700" fill="#141E27">Company Directory</text>
+<text x="848" y="124" font-size="16" fill="#54626E">urn:holon:directory</text>
+<rect x="848" y="146" width="292" height="186" rx="14" fill="#fff" stroke="#A6AFBE" stroke-width="1.25" filter="url(#card)"/>
+<text x="872" y="178" font-size="13" font-weight="700" fill="#6b7785" letter-spacing="2">INTERIOR</text>
+<text x="872" y="212" font-size="20" font-weight="700" fill="#141E27">Schema.org triples</text>
+<text x="872" y="236" font-size="20" font-weight="700" fill="#141E27">injected</text>
+<text x="872" y="270" font-size="15" fill="#54626E">schema:Person · schema:name</text>
+<text x="872" y="294" font-size="15" fill="#54626E">schema:email · schema:jobTitle</text>
+<rect x="848" y="352" width="292" height="186" rx="14" fill="#fff" stroke="#A6AFBE" stroke-width="1.25" filter="url(#card)"/>
+<text x="872" y="384" font-size="13" font-weight="700" fill="#6b7785" letter-spacing="2">CONTEXT</text>
+<text x="872" y="418" font-size="20" font-weight="700" fill="#141E27">prov:Activity recorded</text>
+<text x="872" y="452" font-size="15" fill="#54626E">prov:used · prov:generated</text>
+<text x="872" y="476" font-size="15" fill="#54626E">prov:wasAssociatedWith</text>
+<text x="872" y="500" font-size="15" fill="#54626E">prov:startedAtTime</text>
+</svg>

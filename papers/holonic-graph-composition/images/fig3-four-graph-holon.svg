@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">
+<defs>
+<filter id="card" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="#0B1930" flood-opacity="0.09"/></filter>
+</defs>
+<rect x="0" y="0" width="1200" height="620" fill="#FAFBFC"/>
+
+<rect x="36" y="36" width="1128" height="548" rx="26" fill="#DDE2EA" stroke="#A6AFBE" stroke-width="1.25"/>
+<text x="62" y="64" font-size="14" font-weight="700" fill="#6b7785" letter-spacing="2.4">CONTEXT</text>
+<text x="160" y="64" font-size="14" fill="#6b7785">where it belongs, and what happened</text>
+<rect x="62" y="508" width="330" height="40" rx="12" fill="#C6CEDD" stroke="#8B98AE" stroke-width="1"/>
+<text x="227" y="534" font-size="16" font-weight="600" fill="#141E27" text-anchor="middle">prov:Activity</text>
+<rect x="404" y="508" width="330" height="40" rx="12" fill="#C6CEDD" stroke="#8B98AE" stroke-width="1"/>
+<text x="569" y="534" font-size="16" font-weight="600" fill="#141E27" text-anchor="middle">prov:wasDerivedFrom</text>
+<rect x="746" y="508" width="392" height="40" rx="12" fill="#C6CEDD" stroke="#8B98AE" stroke-width="1"/>
+<text x="942" y="534" font-size="16" font-weight="600" fill="#141E27" text-anchor="middle">cga:dataClassification</text>
+
+<rect x="70" y="78" width="1060" height="412" rx="22" fill="#EDF0F4" stroke="#A6AFBE" stroke-width="1.25"/>
+<text x="96" y="106" font-size="14" font-weight="700" fill="#0E7C86" letter-spacing="2.4">PROJECTION</text>
+<text x="216" y="106" font-size="14" fill="#6b7785">what outsiders are shown</text>
+<rect x="96" y="418" width="500" height="40" rx="12" fill="#C1D9D1" stroke="#93BFB2" stroke-width="1"/>
+<text x="346" y="444" font-size="16" font-weight="600" fill="#141E27" text-anchor="middle">CONSTRUCT-derived view</text>
+<rect x="608" y="418" width="496" height="40" rx="12" fill="#C1D9D1" stroke="#93BFB2" stroke-width="1"/>
+<text x="856" y="444" font-size="16" font-weight="600" fill="#141E27" text-anchor="middle">LPG / visualisation output</text>
+
+<rect x="104" y="120" width="992" height="278" rx="18" fill="#C9D6EA" stroke="#3B47A0" stroke-width="1.75" stroke-dasharray="9 6"/>
+<text x="130" y="148" font-size="14" font-weight="700" fill="#3B47A0" letter-spacing="2.4">BOUNDARY</text>
+<text x="242" y="148" font-size="14" fill="#3B47A0">what is allowed to cross: the SHACL membrane</text>
+<rect x="130" y="326" width="308" height="40" rx="12" fill="#fff" stroke="#93A8C4" stroke-width="1"/>
+<text x="284" y="352" font-size="16" font-weight="600" fill="#141E27" text-anchor="middle">sh:NodeShape</text>
+<rect x="450" y="326" width="308" height="40" rx="12" fill="#fff" stroke="#93A8C4" stroke-width="1"/>
+<text x="604" y="352" font-size="16" font-weight="600" fill="#141E27" text-anchor="middle">cga:Portal</text>
+<rect x="770" y="326" width="300" height="40" rx="12" fill="#fff" stroke="#93A8C4" stroke-width="1"/>
+<text x="920" y="352" font-size="16" font-weight="600" fill="#141E27" text-anchor="middle">cga:constructQuery</text>
+
+<rect x="138" y="162" width="924" height="146" rx="14" fill="#fff" stroke="#A6AFBE" stroke-width="1.25" filter="url(#card)"/>
+<text x="164" y="190" font-size="14" font-weight="700" fill="#6b7785" letter-spacing="2.4">INTERIOR</text>
+<text x="270" y="190" font-size="14" fill="#6b7785">what is true inside: the A-Box triples</text>
+<rect x="164" y="206" width="436" height="76" rx="12" fill="#C6CEDD" stroke="#8B98AE" stroke-width="1"/>
+<text x="382" y="240" font-size="17" font-weight="700" fill="#141E27" text-anchor="middle">Named graph A</text>
+<text x="382" y="264" font-size="14" fill="#1f3448" text-anchor="middle">urn:holon:x/interior/people</text>
+<rect x="616" y="206" width="420" height="76" rx="12" fill="#C6CEDD" stroke="#8B98AE" stroke-width="1"/>
+<text x="826" y="240" font-size="17" font-weight="700" fill="#141E27" text-anchor="middle">Named graph B</text>
+<text x="826" y="264" font-size="14" fill="#1f3448" text-anchor="middle">urn:holon:x/interior/payroll</text>
+
+<text x="1138" y="64" font-size="14" font-weight="700" fill="#3B47A0" text-anchor="end">urn:holon:x</text>
+</svg>

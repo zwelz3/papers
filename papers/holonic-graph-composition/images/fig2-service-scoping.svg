@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">
+<defs>
+<filter id="card" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="#0B1930" flood-opacity="0.09"/></filter>
+<filter id="band" x="-12%" y="-40%" width="124%" height="200%"><feDropShadow dx="0" dy="10" stdDeviation="20" flood-color="#0B1930" flood-opacity="0.16"/></filter>
+</defs>
+<rect x="0" y="0" width="1200" height="640" fill="#FAFBFC"/>
+
+<rect x="340" y="32" width="520" height="118" rx="18" fill="#14233A" filter="url(#band)"/>
+<text x="600" y="78" font-size="24" font-weight="700" fill="#F2F6FC" text-anchor="middle">SELECT ?person ?name ?dept</text>
+<text x="600" y="108" font-size="16" fill="#B7C7DE" text-anchor="middle">two SERVICE blocks, evaluated apart</text>
+
+<path d="M420 150 L300 196" stroke="#3B47A0" stroke-width="2.4" stroke-linecap="round"/>
+<path d="M303 189 L288 200 L307 202 Z" fill="#3B47A0"/>
+<path d="M780 150 L900 196" stroke="#3B47A0" stroke-width="2.4" stroke-linecap="round"/>
+<path d="M897 189 L912 200 L893 202 Z" fill="#3B47A0"/>
+
+<rect x="36" y="210" width="460" height="190" rx="18" fill="#fff" stroke="#A6AFBE" stroke-width="1.25" filter="url(#card)"/>
+<text x="66" y="242" font-size="13" font-weight="700" fill="#6b7785" letter-spacing="2.2">LEFT OF THE JOIN</text>
+<text x="66" y="276" font-size="22" font-weight="700" fill="#141E27">HR endpoint</text>
+<text x="66" y="302" font-size="15" fill="#54626E">cco:Person · cco:has_text_value</text>
+<text x="66" y="338" font-size="17" font-weight="500" fill="#141E27">Binds ?person to 2 employees</text>
+<text x="66" y="364" font-size="17" font-weight="500" fill="#141E27">Binds ?email for each</text>
+
+<rect x="704" y="210" width="460" height="190" rx="18" fill="#fff" stroke="#A6AFBE" stroke-width="1.25" filter="url(#card)"/>
+<text x="734" y="242" font-size="13" font-weight="700" fill="#6b7785" letter-spacing="2.2">RIGHT OF THE JOIN</text>
+<text x="734" y="276" font-size="22" font-weight="700" fill="#141E27">Directory endpoint</text>
+<text x="734" y="302" font-size="15" fill="#54626E">schema:Person · schema:email</text>
+<text x="734" y="338" font-size="17" font-weight="500" fill="#141E27">Evaluates independently</text>
+<text x="734" y="364" font-size="17" font-weight="500" fill="#141E27">Returns all 50,000 entries</text>
+
+<path d="M496 305 L578 305" stroke="#8a5410" stroke-width="2.2" stroke-dasharray="7 5" stroke-linecap="round"/>
+<path d="M622 305 L704 305" stroke="#8a5410" stroke-width="2.2" stroke-dasharray="7 5" stroke-linecap="round"/>
+<path d="M590 293 L610 313 M610 293 L590 313" stroke="#8a5410" stroke-width="2.8" stroke-linecap="round"/>
+<text x="600" y="272" font-size="16" font-weight="700" fill="#8a5410" text-anchor="middle">?person not pushed</text>
+<text x="600" y="344" font-size="14" fill="#6b7785" text-anchor="middle">the spec says SHOULD,</text>
+<text x="600" y="362" font-size="14" fill="#6b7785" text-anchor="middle">not MUST</text>
+
+<path d="M266 400 L470 452" stroke="#3B47A0" stroke-width="2.4" stroke-linecap="round"/>
+<path d="M467 445 L482 455 L463 458 Z" fill="#3B47A0"/>
+<path d="M934 400 L730 452" stroke="#3B47A0" stroke-width="2.4" stroke-linecap="round"/>
+<path d="M733 445 L718 455 L737 458 Z" fill="#3B47A0"/>
+
+<rect x="250" y="462" width="700" height="146" rx="18" fill="#ECE0C7" stroke="#C0A268" stroke-width="1.5"/>
+<text x="600" y="506" font-size="26" font-weight="700" fill="#141E27" text-anchor="middle">2 × 50,000 = 100,000 rows</text>
+<text x="600" y="532" font-size="16" fill="#54626E" text-anchor="middle">a cross-product, filtered client-side to the two that matter</text>
+<rect x="290" y="552" width="180" height="36" rx="11" fill="#fff" stroke="#C0A268" stroke-width="1"/>
+<text x="380" y="576" font-size="16" font-weight="700" fill="#8a5410" text-anchor="middle">No validation</text>
+<rect x="486" y="552" width="196" height="36" rx="11" fill="#fff" stroke="#C0A268" stroke-width="1"/>
+<text x="584" y="576" font-size="16" font-weight="700" fill="#8a5410" text-anchor="middle">No provenance</text>
+<rect x="698" y="552" width="196" height="36" rx="11" fill="#fff" stroke="#C0A268" stroke-width="1"/>
+<text x="796" y="576" font-size="16" font-weight="700" fill="#8a5410" text-anchor="middle">No governance</text>
+</svg>

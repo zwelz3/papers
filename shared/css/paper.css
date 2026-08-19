@@ -58,9 +58,13 @@ pre code{background:none;padding:0;border:none;font-size:var(--code-fs);line-hei
   color:var(--code-text);white-space:pre;word-break:normal;}
 blockquote{margin:22px 0;padding:2px 20px;border-left:3px solid var(--rule);color:var(--text-soft);}
 li>code,p>code{white-space:nowrap;}
+/* The frame keeps a fixed ratio so cards and pages line up regardless of what
+   each paper's hero happens to be. The image is letterboxed into it rather than
+   cropped to fill it: nothing in the artwork is lost, and the leftover space
+   reads as deliberate black bars instead of a mismatched panel. */
 figure.hero{margin:0 0 40px;padding:0;border-radius:16px;overflow:hidden;
-  border:1px solid var(--rule);background:var(--surface-2);aspect-ratio:3/2;}
-figure.hero img{display:block;width:100%;height:100%;object-fit:cover;object-position:center;}
+  border:1px solid var(--rule);background:#000;aspect-ratio:3/2;}
+figure.hero img{display:block;width:100%;height:100%;object-fit:contain;object-position:center;}
 figure.fig{margin:34px 0;padding:10px;background:var(--surface-2);border:1px solid var(--rule);border-radius:14px;}
 figure.fig img{display:block;width:100%;height:auto;border-radius:8px;}
 figure.fig figcaption{font-size:14.5px;line-height:1.5;color:var(--cap);padding:12px 10px 4px;}
@@ -313,8 +317,10 @@ body.has-nav .wrap{padding-top:36px;}
   h2{font-size:14pt;margin:18pt 0 4pt;padding-top:8pt;break-after:avoid;}
   h3{font-size:11.5pt;margin:12pt 0 3pt;break-after:avoid;}
   p{margin:7pt 0;orphans:3;widows:3;}
-  figure.hero{aspect-ratio:auto;max-height:74mm;break-inside:avoid;margin-bottom:12pt;}
-  figure.hero img{max-height:74mm;object-fit:contain;}
+  /* No bars on paper: the frame collapses to the image, so drop the black
+     backdrop that letterboxes it on screen and keep the ink for the artwork. */
+  figure.hero{aspect-ratio:auto;max-height:74mm;break-inside:avoid;margin-bottom:12pt;background:none;}
+  figure.hero img{max-height:74mm;height:auto;object-fit:contain;}
   figure.fig{break-inside:avoid;padding:6pt;background:#fff;}
   figure.fig figcaption{font-size:8.5pt;}
   pre{break-inside:avoid;font-size:8pt;padding:8pt;}
@@ -378,38 +384,83 @@ html[data-theme="dark"] .theme-toggle .icon-moon{display:block;}
    The SVG files keep their original hex so that non-browser renderers
    (WeasyPrint, for the PDF artifact) draw them correctly. Dark mode is
    applied here, where CSS beats the presentation attribute. */
-html[data-theme="dark"] .fig-svg [fill="#0E7C86"]{fill:#4fc9d4;}
-html[data-theme="dark"] .fig-svg [fill="#141E27"]{fill:#e8edf2;}
-html[data-theme="dark"] .fig-svg [fill="#1f3448"]{fill:#cdd6df;}
-html[data-theme="dark"] .fig-svg [fill="#3B47A0"]{fill:#98a3ee;}
-html[data-theme="dark"] .fig-svg [fill="#3a4652"]{fill:#c2ccd6;}
-html[data-theme="dark"] .fig-svg [fill="#54626E"]{fill:#9aa7b4;}
-html[data-theme="dark"] .fig-svg [fill="#6b7785"]{fill:#8894a1;}
-html[data-theme="dark"] .fig-svg [fill="#8a5410"]{fill:#c09d55;}
-html[data-theme="dark"] .fig-svg [fill="#9c5c0c"]{fill:#cdaa60;}
-html[data-theme="dark"] .fig-svg [fill="#B26A0F"]{fill:#d9b871;}
-html[data-theme="dark"] .fig-svg [fill="#DCEEF0"]{fill:#123c43;}
-html[data-theme="dark"] .fig-svg [fill="#E3E5F5"]{fill:#272d5c;}
-html[data-theme="dark"] .fig-svg [fill="#F3F5F7"]{fill:#222a34;}
-html[data-theme="dark"] .fig-svg [fill="#F5E9D6"]{fill:#3a3324;}
-html[data-theme="dark"] .fig-svg [fill="#e4e7ea"]{fill:#2f3945;}
-html[data-theme="dark"] .fig-svg [fill="#ebedf0"]{fill:#1b222a;}
-html[data-theme="dark"] .fig-svg [fill="#f2f4f6"]{fill:#222a34;}
-html[data-theme="dark"] .fig-svg [fill="#f3f7f8"]{fill:#222a34;}
-html[data-theme="dark"] .fig-svg [fill="#f5e9d6"]{fill:#3a3324;}
-html[data-theme="dark"] .fig-svg [fill="#faf4e8"]{fill:#2e2a1e;}
-html[data-theme="dark"] .fig-svg [fill="#fff"]{fill:#1d242d;}
-html[data-theme="dark"] .fig-svg [stroke="#0E7C86"]{stroke:#4fc9d4;}
-html[data-theme="dark"] .fig-svg [stroke="#3B47A0"]{stroke:#98a3ee;}
-html[data-theme="dark"] .fig-svg [stroke="#54626E"]{stroke:#9aa7b4;}
-html[data-theme="dark"] .fig-svg [stroke="#6b7785"]{stroke:#8894a1;}
-html[data-theme="dark"] .fig-svg [stroke="#9aa4ad"]{stroke:#78848f;}
-html[data-theme="dark"] .fig-svg [stroke="#B26A0F"]{stroke:#d9b871;}
-html[data-theme="dark"] .fig-svg [stroke="#CAD4DC"]{stroke:#3a4652;}
-html[data-theme="dark"] .fig-svg [stroke="#c9d3d9"]{stroke:#3a4652;}
-html[data-theme="dark"] .fig-svg [stroke="#ccd0d5"]{stroke:#3a4652;}
-html[data-theme="dark"] .fig-svg [stroke="#d5d8dc"]{stroke:#3a4652;}
-html[data-theme="dark"] .fig-svg [stroke="#e6cfa8"]{stroke:#544a33;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#0E7C86"]{fill:#4fc9d4;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#141E27"]{fill:#e8edf2;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#1f3448"]{fill:#cdd6df;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#3B47A0"]{fill:#98a3ee;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#3a4652"]{fill:#c2ccd6;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#54626E"]{fill:#9aa7b4;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#6b7785"]{fill:#8894a1;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#8a5410"]{fill:#c09d55;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#9c5c0c"]{fill:#cdaa60;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#B26A0F"]{fill:#d9b871;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#DCEEF0"]{fill:#123c43;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#E3E5F5"]{fill:#272d5c;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#F3F5F7"]{fill:#222a34;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#F5E9D6"]{fill:#3a3324;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#e4e7ea"]{fill:#2f3945;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#ebedf0"]{fill:#1b222a;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#f2f4f6"]{fill:#222a34;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#f3f7f8"]{fill:#222a34;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#f5e9d6"]{fill:#3a3324;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#faf4e8"]{fill:#2e2a1e;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#fff"]{fill:#1d242d;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [stroke="#0E7C86"]{stroke:#4fc9d4;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [stroke="#3B47A0"]{stroke:#98a3ee;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [stroke="#54626E"]{stroke:#9aa7b4;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [stroke="#6b7785"]{stroke:#8894a1;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [stroke="#9aa4ad"]{stroke:#78848f;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [stroke="#B26A0F"]{stroke:#d9b871;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [stroke="#CAD4DC"]{stroke:#3a4652;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [stroke="#c9d3d9"]{stroke:#3a4652;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [stroke="#ccd0d5"]{stroke:#3a4652;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [stroke="#d5d8dc"]{stroke:#3a4652;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [stroke="#e6cfa8"]{stroke:#544a33;}
+
+/* Surface registers used by the holonic-graph-composition figures. The LIGHT
+   canvas and cards invert; the MID container fills become the mid-dark field
+   their light counterparts are, so the nesting order reads the same in both
+   themes. #F2F6FC and #B7C7DE are the light inks on the navy surface, which
+   stays dark in either theme, so they are deliberately left alone. */
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#FAFBFC"]{fill:#191f27;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#DDE2EA"]{fill:#262f3a;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#EDF0F4"]{fill:#2e3846;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#DCE3EE"]{fill:#26303f;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#C9D6EA"]{fill:#2d3a4e;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#D3E5DF"]{fill:#223731;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#ECE0C7"]{fill:#383021;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#C6CEDD"]{fill:#333d4b;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#C4D0E4"]{fill:#354052;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#C1D9D1"]{fill:#2c4a42;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#14233A"]{fill:#10192a;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [fill="#8FA3BE"]{fill:#55677f;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [stroke="#A6AFBE"]{stroke:#3c4653;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [stroke="#93A8C4"]{stroke:#44536a;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [stroke="#8B98AE"]{stroke:#47525f;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [stroke="#93BFB2"]{stroke:#3f5f56;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [stroke="#C0A268"]{stroke:#6b5a33;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [stroke="#8FA3BE"]{stroke:#55677f;}
+html[data-theme="dark"] .fig-svg:not(.fig-light) [stroke="#8a5410"]{stroke:#c09d55;}
+
+/* Figures that keep their light palette in dark mode. A paper opts in with
+   `figure_theme: light` in paper.yaml; build.py then puts .fig-light on the
+   wrapper, and the :not(.fig-light) guard above exempts it from every
+   inversion. Where a figure stacks several light surfaces, inverting them all
+   collapses the stack into near-black and the structure stops reading; keeping
+   the authored ink/line/fill relationships -- the ones the light design was
+   contrast-checked against -- holds it together. Only the two brightest
+   surfaces move, onto a warm off-white that is softer than paper white against
+   a dark page but still separates canvas from card. */
+html[data-theme="dark"] .fig-svg.fig-light [fill="#FAFBFC"]{fill:#F5F2EA;}
+html[data-theme="dark"] .fig-svg.fig-light [fill="#fff"]{fill:#FCFAF5;}
+html[data-theme="dark"] .fig-svg.fig-light [fill="#ffffff"]{fill:#FCFAF5;}
+/* Warming the canvas costs the 13px micro labels ~0.3 of their contrast ratio,
+   which they cannot spare (4.40:1 on the light canvas). Darken that one ink to
+   put them back above where the light design has them. */
+html[data-theme="dark"] .fig-svg.fig-light [fill="#6b7785"]{fill:#636D7A;}
+/* The mat the plate sits on: lifted off the page background so the figure
+   still reads as its own object without a hard light edge around it. */
+html[data-theme="dark"] figure.fig:has(.fig-light){background:#2a3038;border-color:#3a414a;}
 
 @media (max-width:640px){
   /* the single control row is too tight on a phone: give search its own line */

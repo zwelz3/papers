@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="640" viewBox="0 0 1200 640" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">
+<defs>
+<filter id="card" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="#0B1930" flood-opacity="0.09"/></filter>
+</defs>
+<rect x="0" y="0" width="1200" height="640" fill="#FAFBFC"/>
+
+<text x="36" y="62" font-size="13" font-weight="700" fill="#6b7785" letter-spacing="2.2">OUTSIDE THE HOLON</text>
+<rect x="36" y="80" width="300" height="140" rx="16" fill="#C6CEDD" stroke="#8B98AE" stroke-width="1"/>
+<text x="60" y="112" font-size="12" font-weight="700" fill="#54626E" letter-spacing="1.8">RELATIONAL SOURCE</text>
+<text x="60" y="146" font-size="22" font-weight="700" fill="#141E27">PostgreSQL</text>
+<text x="60" y="174" font-size="15" fill="#1f3448">employees · projects</text>
+<text x="60" y="196" font-size="15" fill="#1f3448">departments</text>
+
+<path d="M186 220 L186 250" stroke="#6b7785" stroke-width="2.2" stroke-linecap="round"/>
+<path d="M180 250 L186 262 L192 250 Z" fill="#6b7785"/>
+<text x="200" y="244" font-size="14" font-weight="600" fill="#6b7785">SQL</text>
+
+<rect x="36" y="262" width="300" height="150" rx="16" fill="#C6CEDD" stroke="#8B98AE" stroke-width="1"/>
+<text x="60" y="294" font-size="12" font-weight="700" fill="#54626E" letter-spacing="1.8">VIRTUALIZATION LAYER</text>
+<text x="60" y="328" font-size="22" font-weight="700" fill="#141E27">Ontop VKG</text>
+<text x="60" y="356" font-size="15" fill="#1f3448">SPARQL → SQL</text>
+<text x="60" y="378" font-size="15" fill="#1f3448">R2RML mappings v3.2</text>
+
+<path d="M336 337 L372 337" stroke="#3B47A0" stroke-width="2.8" stroke-linecap="round"/>
+<path d="M372 330 L386 337 L372 344 Z" fill="#3B47A0"/>
+<text x="336" y="322" font-size="14" font-weight="700" fill="#3B47A0" text-anchor="end">CONSTRUCT</text>
+
+<rect x="392" y="36" width="772" height="568" rx="24" fill="#DDE2EA" stroke="#A6AFBE" stroke-width="1.25"/>
+<text x="418" y="66" font-size="13" font-weight="700" fill="#3B47A0" letter-spacing="2.2">HOLON · ENG-VKG</text>
+<text x="418" y="100" font-size="24" font-weight="700" fill="#141E27">urn:holon:eng-vkg</text>
+<text x="700" y="100" font-size="15" fill="#54626E">a cga:DataHolon wrapping the stack on the left</text>
+
+<rect x="416" y="122" width="360" height="228" rx="16" fill="#fff" stroke="#A6AFBE" stroke-width="1.25" filter="url(#card)"/>
+<text x="440" y="152" font-size="13" font-weight="700" fill="#6b7785" letter-spacing="2.2">INTERIOR · VIRTUAL</text>
+<text x="440" y="184" font-size="19" font-weight="700" fill="#141E27">Populated by query,</text>
+<text x="440" y="208" font-size="19" font-weight="700" fill="#141E27">not by assertion</text>
+<text x="440" y="238" font-size="14" fill="#54626E">A materialised snapshot, or a backend</text>
+<text x="440" y="258" font-size="14" fill="#54626E">routing SPARQL to the VKG endpoint.</text>
+<rect x="440" y="278" width="152" height="34" rx="10" fill="#C6CEDD" stroke="#8B98AE" stroke-width="1"/>
+<text x="516" y="301" font-size="14" font-weight="600" fill="#141E27" text-anchor="middle">schema:Person</text>
+<rect x="604" y="278" width="148" height="34" rx="10" fill="#C6CEDD" stroke="#8B98AE" stroke-width="1"/>
+<text x="678" y="301" font-size="14" font-weight="600" fill="#141E27" text-anchor="middle">schema:worksFor</text>
+
+<rect x="792" y="122" width="348" height="228" rx="16" fill="#C9D6EA" stroke="#3B47A0" stroke-width="1.75" stroke-dasharray="9 6"/>
+<text x="816" y="152" font-size="13" font-weight="700" fill="#3B47A0" letter-spacing="2.2">BOUNDARY</text>
+<text x="816" y="184" font-size="19" font-weight="700" fill="#141E27">A SHACL contract</text>
+<text x="816" y="208" font-size="19" font-weight="700" fill="#141E27">for the VKG output</text>
+<text x="816" y="238" font-size="14" fill="#1f3448">Doubles as a regression test: a schema</text>
+<text x="816" y="258" font-size="14" fill="#1f3448">change that breaks R2RML fails here.</text>
+<rect x="816" y="278" width="148" height="34" rx="10" fill="#fff" stroke="#93A8C4" stroke-width="1"/>
+<text x="890" y="301" font-size="14" font-weight="600" fill="#141E27" text-anchor="middle">VkgEmployeeShape</text>
+<rect x="976" y="278" width="140" height="34" rx="10" fill="#fff" stroke="#93A8C4" stroke-width="1"/>
+<text x="1046" y="301" font-size="14" font-weight="600" fill="#141E27" text-anchor="middle">VkgOrgShape</text>
+
+<rect x="416" y="366" width="360" height="214" rx="16" fill="#fff" stroke="#93BFB2" stroke-width="1.25" filter="url(#card)"/>
+<text x="440" y="396" font-size="13" font-weight="700" fill="#0E7C86" letter-spacing="2.2">PROJECTION</text>
+<text x="440" y="428" font-size="19" font-weight="700" fill="#141E27">A non-PII subset</text>
+<text x="440" y="452" font-size="19" font-weight="700" fill="#141E27">for consumers</text>
+<text x="440" y="482" font-size="14" fill="#54626E">Name and department only;</text>
+<text x="440" y="502" font-size="14" fill="#54626E">no SSN, no salary.</text>
+<rect x="440" y="522" width="312" height="34" rx="10" fill="#C1D9D1" stroke="#93BFB2" stroke-width="1"/>
+<text x="596" y="545" font-size="14" font-weight="600" fill="#141E27" text-anchor="middle">portal onward to Analytics</text>
+
+<rect x="792" y="366" width="348" height="214" rx="16" fill="#fff" stroke="#A6AFBE" stroke-width="1.25" filter="url(#card)"/>
+<text x="816" y="396" font-size="13" font-weight="700" fill="#6b7785" letter-spacing="2.2">CONTEXT</text>
+<text x="816" y="428" font-size="19" font-weight="700" fill="#141E27">What the stack is,</text>
+<text x="816" y="452" font-size="19" font-weight="700" fill="#141E27">and who owns it</text>
+<text x="816" y="482" font-size="14" fill="#54626E">The provenance the VKG has</text>
+<text x="816" y="502" font-size="14" fill="#54626E">no native place to record.</text>
+<rect x="816" y="522" width="148" height="34" rx="10" fill="#C6CEDD" stroke="#8B98AE" stroke-width="1"/>
+<text x="890" y="545" font-size="14" font-weight="600" fill="#141E27" text-anchor="middle">R2RML v3.2</text>
+<rect x="976" y="522" width="140" height="34" rx="10" fill="#C6CEDD" stroke="#8B98AE" stroke-width="1"/>
+<text x="1046" y="545" font-size="14" font-weight="600" fill="#141E27" text-anchor="middle">dataSteward</text>
+</svg>

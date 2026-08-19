@@ -40,6 +40,7 @@ python scripts/make_pdf.py my-paper   # when you want a Zenodo deposit
 | `tags` | no | Chips on the card and page, the landing-page filter, the search index, JSON-LD keywords. Reuse the existing vocabulary; `check.py` warns when the same tag is spelled differently across papers. |
 | `hero` | no | Path relative to the paper folder (e.g. `images/hero.jpeg`). Renders under the title on the page and as the card thumbnail. Without it the card shows a monogram tile so the layout still aligns. |
 | `figures` | no | Map of marker key -> image path, e.g. `"1": images/fig1.jpeg`. Keys are alphanumeric (`1`, `2`, `A1`). Every `[[FIGURE key]]` marker in the body must have an entry and every entry must point to an existing file (`check.py` errors); unreferenced entries warn. |
+| `figure_theme` | no | `light` opts the paper's inlined SVGs out of the dark-mode colour inversion: they keep their authored palette on a warm off-white canvas in both themes. Use it when a figure set layers several light surfaces (canvas, cards, tinted fills) that go muddy once inverted. Omitted -> figures invert with the page. |
 | `discussions` | no | Where the paper was previously shared. Bare URLs get a friendly label from the domain (GitHub, LinkedIn, Substack, ...); use a `label`/`url` map to override. Renders as "Previously discussed on ..." under the tags and emits schema.org `discussionUrl`. `check.py` errors on non-http(s) entries. |
 
 A complete example:
@@ -83,7 +84,8 @@ discussions:
   `<img>`; **SVG figures are inlined** so they inherit theme variables and
   follow the light/dark toggle. Keep original hex colours inside the SVG:
   WeasyPrint reads those for the PDF, and dark mode is applied over them by
-  CSS.
+  CSS. Set `figure_theme: light` in `paper.yaml` to skip that inversion and
+  keep the figures light in both themes.
 - **Markdown extras enabled:** pipe tables, fenced code blocks, footnotes
   (`[^1]` syntax), sane lists. No math rendering; if a paper ever needs
   equations, KaTeX has to be wired into the build first.

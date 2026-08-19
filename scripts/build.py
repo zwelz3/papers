@@ -678,6 +678,10 @@ def build_paper(entry: dict, cfg: dict, all_entries: list[dict]) -> None:
     md_text = (paper_dir / "index.md").read_text(encoding="utf-8")
 
     figures = meta.get("figures", {}) or {}
+    # `figure_theme: light` keeps inlined SVGs on their authored light palette
+    # in dark mode instead of inverting them; paper.css keys off .fig-light.
+    svg_cls = ("fig-svg fig-light"
+               if str(meta.get("figure_theme", "")).lower() == "light" else "fig-svg")
     md_text, caps = render_figures(md_text)
     body = markdown.markdown(
         md_text,
@@ -694,7 +698,7 @@ def build_paper(entry: dict, cfg: dict, all_entries: list[dict]) -> None:
             # variables, so it would not follow the light/dark toggle
             inner = src.read_text(encoding="utf-8")
             inner = re.sub(r"<\?xml.*?\?>", "", inner, flags=re.S).strip()
-            media = f'  <div class="fig-svg">{inner}</div>\n'
+            media = f'  <div class="{svg_cls}">{inner}</div>\n'
         else:
             media = f'  <img src="{rel}" alt="{html.escape(cap, quote=True)}" />\n'
         fig = (f'<figure class="fig" id="figure-{num}">\n{media}'

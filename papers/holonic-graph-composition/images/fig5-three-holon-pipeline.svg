@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="520" viewBox="0 0 1200 520" font-family="Inter, 'Helvetica Neue', Arial, sans-serif">
+<defs>
+<filter id="card" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="#0B1930" flood-opacity="0.09"/></filter>
+</defs>
+<rect x="0" y="0" width="1200" height="520" fill="#FAFBFC"/>
+
+<rect x="36" y="36" width="300" height="424" rx="20" fill="#DDE2EA" stroke="#A6AFBE" stroke-width="1.25"/>
+<text x="60" y="66" font-size="13" font-weight="700" fill="#3B47A0" letter-spacing="2.2">HOLON 1 · CCO</text>
+<text x="60" y="100" font-size="22" font-weight="700" fill="#141E27">HR Records</text>
+<text x="60" y="126" font-size="15" fill="#54626E">urn:holon:hr</text>
+<rect x="60" y="150" width="252" height="132" rx="13" fill="#fff" stroke="#A6AFBE" stroke-width="1.25" filter="url(#card)"/>
+<text x="82" y="180" font-size="12" font-weight="700" fill="#6b7785" letter-spacing="1.8">INTERIOR</text>
+<text x="82" y="208" font-size="17" font-weight="700" fill="#141E27">CCO triples</text>
+<text x="82" y="234" font-size="14" fill="#54626E">cco:Person</text>
+<text x="82" y="256" font-size="14" fill="#54626E">cco:OccupationRole</text>
+<rect x="60" y="300" width="252" height="132" rx="13" fill="#fff" stroke="#A6AFBE" stroke-width="1.25" filter="url(#card)"/>
+<text x="82" y="330" font-size="12" font-weight="700" fill="#6b7785" letter-spacing="1.8">BOUNDARY</text>
+<text x="82" y="358" font-size="17" font-weight="700" fill="#141E27">Portal definition</text>
+<text x="82" y="384" font-size="14" fill="#54626E">cga:constructQuery</text>
+<text x="82" y="406" font-size="14" fill="#54626E">target: directory</text>
+
+<text x="393" y="212" font-size="14" font-weight="700" fill="#3B47A0" text-anchor="middle">CCO →</text>
+<text x="393" y="230" font-size="14" font-weight="700" fill="#3B47A0" text-anchor="middle">Schema.org</text>
+<path d="M336 262 L370 262" stroke="#3B47A0" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M393 246 L409 262 L393 278 L377 262 Z" fill="#C9D6EA" stroke="#3B47A0" stroke-width="2"/>
+<path d="M416 262 L436 262" stroke="#3B47A0" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M436 255 L450 262 L436 269 Z" fill="#3B47A0"/>
+<text x="393" y="300" font-size="12" fill="#6b7785" text-anchor="middle">translate</text>
+<text x="393" y="316" font-size="12" fill="#6b7785" text-anchor="middle">validate · record</text>
+
+<rect x="450" y="36" width="300" height="424" rx="20" fill="#DDE2EA" stroke="#A6AFBE" stroke-width="1.25"/>
+<text x="474" y="66" font-size="13" font-weight="700" fill="#3B47A0" letter-spacing="2.2">HOLON 2 · SCHEMA.ORG</text>
+<text x="474" y="100" font-size="22" font-weight="700" fill="#141E27">Company Directory</text>
+<text x="474" y="126" font-size="15" fill="#54626E">urn:holon:directory</text>
+<rect x="474" y="150" width="252" height="132" rx="13" fill="#fff" stroke="#A6AFBE" stroke-width="1.25" filter="url(#card)"/>
+<text x="496" y="180" font-size="12" font-weight="700" fill="#6b7785" letter-spacing="1.8">INTERIOR</text>
+<text x="496" y="208" font-size="17" font-weight="700" fill="#141E27">Schema.org triples</text>
+<text x="496" y="234" font-size="14" fill="#54626E">schema:Person</text>
+<text x="496" y="256" font-size="14" fill="#54626E">schema:email</text>
+<rect x="474" y="300" width="252" height="132" rx="13" fill="#fff" stroke="#A6AFBE" stroke-width="1.25" filter="url(#card)"/>
+<text x="496" y="330" font-size="12" font-weight="700" fill="#6b7785" letter-spacing="1.8">BOUNDARY</text>
+<text x="496" y="358" font-size="17" font-weight="700" fill="#141E27">PersonShape</text>
+<text x="496" y="384" font-size="14" fill="#54626E">requires name</text>
+<text x="496" y="406" font-size="14" fill="#54626E">requires email</text>
+
+<text x="807" y="221" font-size="14" font-weight="700" fill="#3B47A0" text-anchor="middle">pass-through</text>
+<path d="M750 262 L784 262" stroke="#3B47A0" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M807 246 L823 262 L807 278 L791 262 Z" fill="#C9D6EA" stroke="#3B47A0" stroke-width="2"/>
+<path d="M830 262 L850 262" stroke="#3B47A0" stroke-width="2.6" stroke-linecap="round"/>
+<path d="M850 255 L864 262 L850 269 Z" fill="#3B47A0"/>
+<text x="807" y="300" font-size="12" fill="#6b7785" text-anchor="middle">forward</text>
+<text x="807" y="316" font-size="12" fill="#6b7785" text-anchor="middle">validate · record</text>
+
+<rect x="864" y="36" width="300" height="424" rx="20" fill="#D3E5DF" stroke="#93BFB2" stroke-width="1.25"/>
+<text x="888" y="66" font-size="13" font-weight="700" fill="#0E7C86" letter-spacing="2.2">HOLON 3 · SCHEMA.ORG</text>
+<text x="888" y="100" font-size="22" font-weight="700" fill="#141E27">Analytics</text>
+<text x="888" y="126" font-size="15" fill="#54626E">urn:holon:analytics</text>
+<rect x="888" y="150" width="252" height="132" rx="13" fill="#fff" stroke="#93BFB2" stroke-width="1.25" filter="url(#card)"/>
+<text x="910" y="180" font-size="12" font-weight="700" fill="#6b7785" letter-spacing="1.8">INTERIOR</text>
+<text x="910" y="208" font-size="17" font-weight="700" fill="#141E27">Fully derived</text>
+<text x="910" y="234" font-size="14" fill="#54626E">nothing asserted</text>
+<text x="910" y="256" font-size="14" fill="#54626E">locally</text>
+<rect x="888" y="300" width="252" height="132" rx="13" fill="#fff" stroke="#93BFB2" stroke-width="1.25" filter="url(#card)"/>
+<text x="910" y="330" font-size="12" font-weight="700" fill="#6b7785" letter-spacing="1.8">BOUNDARY</text>
+<text x="910" y="358" font-size="17" font-weight="700" fill="#141E27">AnalyticsShape</text>
+<text x="910" y="384" font-size="14" fill="#54626E">requires name</text>
+<text x="910" y="406" font-size="14" fill="#54626E">requires jobTitle</text>
+
+<path d="M186 460 L186 478" stroke="#8FA3BE" stroke-width="1.8" stroke-dasharray="2 6" stroke-linecap="round"/>
+<path d="M600 460 L600 478" stroke="#8FA3BE" stroke-width="1.8" stroke-dasharray="2 6" stroke-linecap="round"/>
+<path d="M1014 460 L1014 478" stroke="#8FA3BE" stroke-width="1.8" stroke-dasharray="2 6" stroke-linecap="round"/>
+<path d="M1014 478 L200 478" stroke="#8FA3BE" stroke-width="1.8" stroke-dasharray="2 6" stroke-linecap="round"/>
+<path d="M197 472 L184 478 L197 484 Z" fill="#8FA3BE"/>
+<text x="600" y="504" font-size="14" fill="#6b7785" text-anchor="middle">prov:wasDerivedFrom: the chain reaches back to urn:holon:hr</text>
+</svg>

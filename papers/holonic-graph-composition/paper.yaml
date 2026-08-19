@@ -1,0 +1,40 @@
+slug: holonic-graph-composition
+title: Graph Composition Within the RDF Technologies Ecosystem
+subtitle: A Holonic Approach
+description: >
+  Why naive graph union fails in production RDF (default-graph divergence,
+  SERVICE variable scoping, band-aid workarounds), and how a four-graph holon
+  model (interior, boundary, projection, context) with portal-mediated,
+  SHACL-validated, PROV-tracked data flows reframes federation as governed
+  composition.
+date: 2026-05-06
+status: draft
+license: CC-BY-4.0
+
+# Zenodo DOI. Leave blank until minted.
+doi: ""
+
+# The primary author from site.yaml is always included first.
+authors: []
+
+tags:
+  - RDF
+  - Graph Databases
+  - holons
+  - SHACL
+  - provenance
+
+hero: images/hero.jpeg
+
+# These figures carry six layered surface registers (canvas, cards, MID fills,
+# chips, one navy band). Inverting that stack for dark mode flattened it into
+# near-black; the light palette on a warm off-white canvas reads better.
+figure_theme: light
+
+figures:
+  "1": images/fig1-default-graph-divergence.svg
+  "2": images/fig2-service-scoping.svg
+  "3": images/fig3-four-graph-holon.svg
+  "4": images/fig4-portal-traversal.svg
+  "5": images/fig5-three-holon-pipeline.svg
+  "6": images/fig6-vkg-holon.svg
