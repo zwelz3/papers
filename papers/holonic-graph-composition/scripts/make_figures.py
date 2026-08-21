@@ -9,8 +9,7 @@ rather than hand-placed coordinates.
     python papers/holonic-graph-composition/scripts/make_figures.py [--png]
 
 Requires the skill at .claude/skills/technical-diagram-design/ and Inter at
-~/.fonts/Inter-{400,500,600,700}.ttf. Rationale for each figure's composition
-is in ../diagram-prompts.md.
+~/.fonts/Inter-{400,500,600,700}.ttf.
 
 Colour is semantic and consistent across the set: amber marks the status quo
 and its failure modes (Figures 1-2), indigo/navy marks holonic structure
@@ -980,7 +979,7 @@ def main() -> None:
             sys.exit(
                 "refusing to overwrite the hand-authored figures:\n  "
                 + "\n  ".join(existing)
-                + "\n\nThis generator is superseded (see ../diagram-prompts.md).\n"
+                + "\n\nThis generator is superseded by the committed SVGs.\n"
                   "Pass --force to regenerate anyway.")
     surfaces().report()
     contrast_report()

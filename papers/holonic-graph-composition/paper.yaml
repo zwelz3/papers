@@ -11,8 +11,8 @@ date: 2026-05-06
 status: draft
 license: CC-BY-4.0
 
-# Zenodo DOI. Leave blank until minted.
-doi: ""
+# Zenodo DOI.
+doi: 10.5281/zenodo.22047502
 
 # The primary author from site.yaml is always included first.
 authors: []
